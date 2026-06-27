@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Henry & Hellen - Wedding Invitation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<style>
+@font-face {
+  font-family: 'Diphylleia';
+  src: url('fonts/Diphylleia-Regular.ttf') format('truetype');
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { overflow-x: hidden; scroll-behavior: smooth; }
+body { font-family: 'Diphylleia', serif; background: #010101; color: #E0E0E0; }
+
+.fixed { position: fixed; }
+.absolute { position: absolute; }
+.relative { position: relative; }
+.inset-0 { top: 0; right: 0; bottom: 0; left: 0; }
+.bright-silver { color: #F8F8F8; text-shadow: 0 2px 8px rgba(0,0,0,0.8), 0 0 2px rgba(0,0,0,1); }
+
+/* Glassmorphism Panel */
+.glass-panel {
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Scroll Video */
+#scroll-video-container {
+  position: fixed; inset: 0; z-index: -10;
+  background: #000; top: -10%; height: 120%;
+}
+#scroll-video-container canvas,
+#scroll-video-container video {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+#scroll-video-container .overlay { position: absolute; inset: 0; background: transparent; }
+
+/* Particles */
+#particles-canvas {
+  position: fixed; inset: 0; width: 100%; height: 100%;
+  pointer-events: none; z-index: 3;
+}
+
+/* Nav */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  padding: 1.5rem; pointer-events: none;
+}
+nav img.logo { height: 240px; object-fit: contain; }
+
+/* Fixed Counter Aligned */
+#fixed-counter-container {
+  position: fixed; bottom: 3rem; left: 50%; transform: translateX(-50%); z-index: 40;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.3rem 0.8rem;
+  align-items: baseline; opacity: 0.9; pointer-events: none;
+}
+.counter-row { display: contents; }
+.counter-row span {
+  font-family: 'Montserrat', sans-serif; font-size: 1.8rem; font-weight: 700; 
+  color: #FFFFFF;
+  text-shadow: 0 0 10px rgba(255,255,255,0.6), 0 0 20px rgba(255,255,255,0.3);
+  line-height: 1; text-align: right; min-width: 4ch;
+}
+.counter-row .unit {
+  font-family: 'Montserrat', sans-serif; font-size: 0.85rem; letter-spacing: 0.4em; 
+  color: #FFFFFF; text-transform: uppercase; text-align: left;
+  text-shadow: 0 0 5px rgba(255,255,255,0.6);
+}
+
+/* Base Section Styles */
+section {
+  position: relative; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 2rem;
+}
+.inner-content {
+  text-align: center; position: relative; z-index: 10; width: 100%;
+  opacity: 0; transform: translateY(40px); transition: all 1.5s ease;
+}
+.inner-content.visible { opacity: 1; transform: translateY(0); }
+
+/* Hero */
+#hero h1 { font-size: clamp(3.5rem, 8vw, 7rem); font-weight: normal; line-height: 1.2; letter-spacing: 0.1em; margin-bottom: 2rem; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,1); }
+#hero h1 .amp { font-size: 0.5em; vertical-align: middle; margin: 0 0.5rem; color: #E0E0E0; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
+#hero .date { font-family: 'Montserrat', sans-serif; font-size: 2.2rem; letter-spacing: 0.5em; color: #FFFFFF; font-weight: 300; text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1); margin-top: 1.5rem; }
+
+/* Chinese Layout (Scene 2) */
+.invite-header { font-size: 1.5rem; letter-spacing: 0.5em; color: #E0E0E0; margin-bottom: 4rem; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.c-two-column { display: flex; align-items: center; justify-content: center; gap: 6rem; }
+.c-col { display: flex; flex-direction: column; align-items: center; gap: 2.5rem; }
+.c-role { font-size: 1.3rem; letter-spacing: 0.4em; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.c-name { font-size: 3rem; letter-spacing: 0.8em; padding-left: 0.8em; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,1); }
+.c-parents { font-size: 1.3rem; letter-spacing: 0.3em; color: #FFFFFF; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.c-amp { font-size: 4rem; color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-weight: 300; opacity: 0.8; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
+
+/* Combined Calendar & Venue (Scene 3) */
+#combined-section { gap: 5rem; }
+#calendar-block { display: flex; flex-direction: column; gap: 4rem; align-items: center; }
+#calendar-block h2 { font-size: 2rem; letter-spacing: 0.3em; margin-bottom: 0; font-family: 'Montserrat', sans-serif; font-weight: 300; text-transform: uppercase; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1);}
+.calendar-svg { width: 100%; max-width: 500px; margin: 0 auto; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
+.venue-flex { display: flex; align-items: center; justify-content: center; gap: 2.5rem; text-align: left; border-top: 1px solid rgba(255,255,255,0.2); padding-top: 4rem; width: 80%; }
+.venue-logo { height: 100px; object-fit: contain; filter: brightness(0) invert(1) opacity(0.9) drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
+.venue-text h3 { font-family: 'Montserrat', sans-serif; font-size: 1.5rem; font-weight: 300; letter-spacing: 0.2em; margin-bottom: 0.5rem; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.venue-text p { font-size: 1.4rem; letter-spacing: 0.1em; color: #FFFFFF; line-height: 1.5; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+
+/* Transport (Scene 4) */
+.transport-card { padding: 0; position: relative; width: 100%; margin: 0 auto; text-align: center; border: none; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: 3rem; }
+.t-grid { display: flex; flex-direction: column; gap: 3rem; align-items: center; }
+.map-svg { width: 100%; max-width: 800px; height: auto; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
+.t-info { display: flex; flex-direction: row; justify-content: center; gap: 4rem; flex-wrap: wrap; text-align: left; }
+.t-item { display: flex; gap: 1rem; align-items: flex-start; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); max-width: 350px; }
+.t-icon { width: 28px; height: 28px; color: #E0E0E0; flex-shrink: 0; margin-top: 0.2rem; }
+.t-content h4 { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; letter-spacing: 0.2em; color: #FFFFFF; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 600; }
+.t-content p { font-size: 1.2rem; letter-spacing: 0.1em; color: #fff; line-height: 1.6; }
+
+/* Final Gallery & Quote (Scene 5) */
+#final-section {
+  position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+  background: transparent; z-index: 20; padding: 0; overflow: hidden;
+}
+.gallery-scroll-container {
+  width: 100%; overflow-x: auto; white-space: nowrap; margin-bottom: 5rem;
+  padding: 2rem; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+/* Hide scrollbar */
+.gallery-scroll-container::-webkit-scrollbar { display: none; }
+.gallery-scroll-container { -ms-overflow-style: none; scrollbar-width: none; }
+
+.gallery-scroll-container img {
+  height: 40vh; width: auto; object-fit: cover; margin-right: 2rem; border-radius: 4px;
+  filter: grayscale(80%) contrast(1.1) brightness(0.9); transition: all 0.4s ease;
+  scroll-snap-align: center; cursor: pointer; display: inline-block;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+}
+.gallery-scroll-container img:hover { filter: grayscale(0%) contrast(1) brightness(1.1); transform: scale(1.02); }
+
+#final-quote .quote-text {
+  font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 0.15em; line-height: 2;
+  text-align: center; font-family: 'Diphylleia', serif;
+  opacity: 0; transform: translateY(20px); transition: all 2s ease;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,1);
+}
+#final-quote .quote-text.visible { opacity: 1; transform: translateY(0); }
+
+/* Buttons */
+.buttons-container { display: flex; gap: 1.5rem; justify-content: center; margin-top: 4rem; flex-wrap: wrap; }
+.btn-outline {
+  display: inline-block; padding: 1rem 2.5rem; border: 1px solid #E0E0E0; color: #E0E0E0;
+  text-decoration: none; font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase;
+  transition: all 0.3s ease; border-radius: 2px; font-family: 'Montserrat', sans-serif;
+  background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+}
+.btn-outline:hover { background: #E0E0E0; color: #000; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 100;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+.lightbox.active { opacity: 1; pointer-events: auto; }
+.lightbox img { max-width: 90%; max-height: 90vh; border-radius: 4px; box-shadow: 0 20px 50px rgba(0,0,0,1); }
+.close-lightbox {
+  position: absolute; top: 2rem; right: 3rem; font-size: 3rem; color: #fff;
+  cursor: pointer; font-family: 'Montserrat', sans-serif; font-weight: 300; transition: color 0.3s;
+}
+.close-lightbox:hover { color: #A0A0A0; }
+
+@media (max-width: 768px) {
+  nav img.logo { height: 150px; }
+  #fixed-counter-container { bottom: 1.5rem; gap: 0.2rem 0.5rem; }
+  .counter-row .unit { font-size: 0.6rem; }
+  .counter-row span { font-size: 1.2rem; }
+  .c-two-column { flex-direction: column; gap: 2rem; }
+  .c-amp { display: none; }
+  .t-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .gallery-scroll-container img { height: 30vh; margin-right: 1rem; }
+}
+
+/* Detailed Mobile Optimization (RWD) */
+@media (max-width: 768px) {
+  .glass-panel { padding: 1.5rem; border-radius: 12px; }
+  
+  #hero h1 { font-size: clamp(2.5rem, 12vw, 4rem); margin-bottom: 1rem; }
+  #hero .date { font-size: 1.2rem; letter-spacing: 0.3em; }
+  
+  .invite-header { font-size: 1.1rem; margin-bottom: 2rem; letter-spacing: 0.3em; }
+  .c-two-column { gap: 1.5rem; flex-direction: row; }
+  .c-col { gap: 1.5rem; }
+  .c-role { font-size: 0.9rem; letter-spacing: 0.2em; }
+  .c-name { font-size: 1.8rem; letter-spacing: 0.4em; padding-left: 0.4em; }
+  .c-parents { font-size: 0.9rem; letter-spacing: 0.1em; }
+  
+  #calendar-block { gap: 2rem; }
+  #calendar-block h2 { font-size: 1.5rem; letter-spacing: 0.2em; }
+  .calendar-svg { max-width: 280px; }
+  .venue-flex { flex-direction: column; text-align: center; gap: 1.5rem; padding-top: 2rem; width: 100%; }
+  .venue-logo { height: 60px; }
+  .venue-text h3 { font-size: 1.2rem; }
+  .venue-text p { font-size: 1rem; }
+  
+  .transport-card { gap: 1.5rem; }
+  .t-info { flex-direction: column; gap: 2rem; }
+  .t-item { max-width: 100%; align-items: flex-start; }
+  .t-content h4 { font-size: 1rem; }
+  .t-content p { font-size: 0.95rem; }
+  
+  .buttons-container { flex-direction: column; gap: 1rem; width: 100%; }
+  .btn-outline { width: 100%; padding: 1rem; font-size: 1rem; box-sizing: border-box; }
+  
+  #fixed-counter-container { bottom: 1.5rem; gap: 0.2rem 0.5rem; }
+  .counter-row span { font-size: 1.2rem; }
+  .counter-row .unit { font-size: 0.6rem; letter-spacing: 0.2em; }
+}
+</style>
+</head>
+<body>
+
+<div id="scroll-video-container">
+  <canvas id="video-canvas"></canvas>
+  <video id="video-fallback" muted playsinline preload="auto"
+    src="White_rose_deconstructing_in_mid…_202606272216.mp4"
+  ></video>
+  <div class="overlay"></div>
+</div>
+
+<canvas id="particles-canvas"></canvas>
+
+<nav>
+  <img src="LOGO投影-1.png" alt="H&H Logo" class="logo" />
+</nav>
+
+<div id="fixed-counter-container">
+  <div class="counter-row"><span id="c-years">0</span> <div class="unit">YEARS</div></div>
+  <div class="counter-row"><span id="c-months">0</span> <div class="unit">MONTHS</div></div>
+  <div class="counter-row"><span id="c-weeks">0</span> <div class="unit">WEEKS</div></div>
+  <div class="counter-row"><span id="c-days">0</span> <div class="unit">DAYS</div></div>
+</div>
+
+<div id="content">
+  <!-- 1. Hero -->
+  <section id="hero">
+    <div class="inner-content">
+      <h1>Henry <span class="amp">&</span> Hellen</h1>
+      <p class="date">2026 . 09 . 05</p>
+    </div>
+  </section>
+
+  <div style="height:100vh;"></div>
+
+  <!-- 2. Chinese Layout -->
+  <section id="chinese-layout">
+    <div class="inner-content obs-target glass-panel">
+      <div class="invite-header">誠摯邀請您參加我們的婚宴</div>
+      <div class="c-two-column">
+        <!-- Groom -->
+        <div class="c-col">
+          <div class="c-role bright-silver">新郎</div>
+          <div class="c-name">彥亨</div>
+          <div class="c-role bright-silver">男方主婚人</div>
+          <div class="c-parents">劉國政 &nbsp;李麗娟</div>
+        </div>
+        <!-- Ampersand -->
+        <div class="c-amp">&amp;</div>
+        <!-- Bride -->
+        <div class="c-col">
+          <div class="c-role bright-silver">新娘</div>
+          <div class="c-name">佳敏</div>
+          <div class="c-role bright-silver">女方主婚人</div>
+          <div class="c-parents">陳明志 &nbsp;鄒美琪</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="height:100vh;"></div>
+
+  <!-- 3. Combined Calendar & Venue -->
+  <section id="combined-section">
+    <div class="inner-content obs-target glass-panel" id="calendar-block">
+      <h2>September 2026</h2>
+      <svg class="calendar-svg" viewBox="0 0 350 250" xmlns="http://www.w3.org/2000/svg">
+        <style>
+          .cal-text { font-family: 'Montserrat', sans-serif; font-size: 14px; fill: #FFFFFF; font-weight: 600; text-anchor: middle; text-shadow: 0 0 5px rgba(255,255,255,0.5); }
+          .cal-num { font-family: 'Montserrat', sans-serif; font-size: 16px; fill: #E0E0E0; text-anchor: middle; font-weight: 300; }
+          .cal-highlight { fill: none; stroke: #FFFFFF; stroke-width: 2; filter: drop-shadow(0 0 10px rgba(255,255,255,1)); }
+          .cal-highlight-fill { fill: rgba(255,255,255,0.2); filter: blur(2px); }
+        </style>
+        <text x="25" y="20" class="cal-text">S</text>
+        <text x="75" y="20" class="cal-text">M</text>
+        <text x="125" y="20" class="cal-text">T</text>
+        <text x="175" y="20" class="cal-text">W</text>
+        <text x="225" y="20" class="cal-text">T</text>
+        <text x="275" y="20" class="cal-text">F</text>
+        <text x="325" y="20" class="cal-text">S</text>
+        <line x1="10" y1="35" x2="340" y2="35" stroke="rgba(255,255,255,0.5)" stroke-width="1" />
+        <text x="25" y="65" class="cal-num" opacity="0.3">30</text>
+        <text x="75" y="65" class="cal-num" opacity="0.3">31</text>
+        <text x="125" y="65" class="cal-num">1</text>
+        <text x="175" y="65" class="cal-num">2</text>
+        <text x="225" y="65" class="cal-num">3</text>
+        <text x="275" y="65" class="cal-num">4</text>
+        <circle cx="325" cy="60" r="14" class="cal-highlight-fill"/>
+        <text x="325" y="65" class="cal-num" font-weight="700" fill="#fff" style="text-shadow: 0 0 8px rgba(255,255,255,1);">5</text>
+        <circle cx="325" cy="60" r="14" class="cal-highlight"/>
+        <text x="25" y="105" class="cal-num">6</text>
+        <text x="75" y="105" class="cal-num">7</text>
+        <text x="125" y="105" class="cal-num">8</text>
+        <text x="175" y="105" class="cal-num">9</text>
+        <text x="225" y="105" class="cal-num">10</text>
+        <text x="275" y="105" class="cal-num">11</text>
+        <text x="325" y="105" class="cal-num">12</text>
+        <text x="25" y="145" class="cal-num">13</text>
+        <text x="75" y="145" class="cal-num">14</text>
+        <text x="125" y="145" class="cal-num">15</text>
+        <text x="175" y="145" class="cal-num">16</text>
+        <text x="225" y="145" class="cal-num">17</text>
+        <text x="275" y="145" class="cal-num">18</text>
+        <text x="325" y="145" class="cal-num">19</text>
+        <text x="25" y="185" class="cal-num">20</text>
+        <text x="75" y="185" class="cal-num">21</text>
+        <text x="125" y="185" class="cal-num">22</text>
+        <text x="175" y="185" class="cal-num">23</text>
+        <text x="225" y="185" class="cal-num">24</text>
+        <text x="275" y="185" class="cal-num">25</text>
+        <text x="325" y="185" class="cal-num">26</text>
+        <text x="25" y="225" class="cal-num">27</text>
+        <text x="75" y="225" class="cal-num">28</text>
+        <text x="125" y="225" class="cal-num">29</text>
+        <text x="175" y="225" class="cal-num">30</text>
+      </svg>
+      
+      <div class="venue-flex">
+        <img src="萬豪logo.png" alt="Marriott Logo" class="venue-logo">
+        <div class="venue-text">
+          <h3>12:00 開席</h3>
+          <p>台北萬豪酒店<br>8樓 GARDEN VILLA</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="height:100vh;"></div>
+
+  <!-- 4. Transport SVG Map -->
+  <section id="transport-section">
+    <div class="inner-content obs-target glass-panel">
+      <div class="transport-card">
+        <div class="t-grid">
+          <!-- Detailed SVG Map -->
+          <svg class="map-svg" viewBox="0 0 600 450" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0" y="0" width="600" height="450" fill="rgba(0,0,0,0.5)" rx="8"/>
+            <!-- Roads -->
+            <path d="M 0 80 Q 200 120 600 80" stroke="rgba(255,255,255,0.15)" stroke-width="24" fill="none"/>
+            <text x="300" y="95" fill="#C0C0C0" font-size="14" font-family="Montserrat" letter-spacing="2">北安路</text>
+            
+            <path d="M 180 105 L 180 450" stroke="rgba(255,255,255,0.15)" stroke-width="24"/>
+            <text x="185" y="320" fill="#C0C0C0" font-size="14" font-family="Montserrat" writing-mode="vertical-rl" letter-spacing="2">敬業三路</text>
+            
+            <path d="M 180 200 L 600 200" stroke="rgba(255,255,255,0.15)" stroke-width="20"/>
+            <text x="400" y="205" fill="#C0C0C0" font-size="14" font-family="Montserrat" letter-spacing="2">植福路</text>
+            
+            <path d="M 0 400 L 600 400" stroke="rgba(255,255,255,0.15)" stroke-width="20"/>
+            <text x="350" y="405" fill="#C0C0C0" font-size="14" font-family="Montserrat" letter-spacing="2">樂群二路</text>
+
+            <path d="M 380 200 L 380 400" stroke="rgba(255,255,255,0.15)" stroke-width="16"/>
+            <text x="385" y="300" fill="#C0C0C0" font-size="12" font-family="Montserrat" writing-mode="vertical-rl" letter-spacing="2">敬業四路</text>
+            
+            <!-- Walk Path (Animated) -->
+            <path d="M 130 90 Q 180 120 180 200 L 180 390 L 360 390 L 360 340" stroke="#FFFFFF" stroke-width="4" stroke-dasharray="10,10" fill="none" style="filter: drop-shadow(0 0 6px #FFF);">
+              <animate attributeName="stroke-dashoffset" from="20" to="0" dur="0.8s" repeatCount="indefinite" />
+            </path>
+            
+            <!-- MRT Station -->
+            <circle cx="130" cy="90" r="14" fill="#FFFFFF" />
+            <circle cx="130" cy="90" r="6" fill="#000" />
+            <text x="130" y="125" fill="#FFFFFF" font-size="16" font-weight="bold" text-anchor="middle" font-family="Montserrat" style="text-shadow:0 2px 4px #000;">劍南路站</text>
+            
+            <!-- Miramar -->
+            <rect x="220" y="220" width="100" height="60" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.3)" rx="4"/>
+            <circle cx="270" cy="250" r="20" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-dasharray="4,4"/>
+            <circle cx="270" cy="250" r="4" fill="#FFFFFF"/>
+            <text x="270" y="300" fill="#E0E0E0" font-size="14" text-anchor="middle" font-family="Diphylleia">美麗華百樂園</text>
+            
+            <!-- Marriott -->
+            <rect x="420" y="300" width="100" height="80" fill="#A0A0A0" rx="4"/>
+            <text x="470" y="345" fill="#000" font-size="28" font-weight="bold" text-anchor="middle" font-family="Montserrat">H</text>
+            <text x="470" y="370" fill="#FFFFFF" font-size="18" text-anchor="middle" font-family="Diphylleia" style="text-shadow:0 0 5px #000;">台北萬豪酒店</text>
+            
+            <!-- Parking -->
+            <rect x="365" y="250" width="30" height="30" fill="rgba(0,0,0,0.8)" stroke="#FFFFFF" stroke-width="2" rx="4"/>
+            <text x="380" y="272" fill="#FFFFFF" font-size="18" font-weight="bold" text-anchor="middle" font-family="Montserrat">P</text>
+          </svg>
+
+          <div class="t-info">
+            <div class="t-item">
+              <svg class="t-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H8a2 2 0 01-2-2V5zm0 10h12M9 19l-2 3m8-3l2 3" />
+                <circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                <circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+              </svg>
+              <div class="t-content">
+                <h4>MRT Station</h4>
+                <p>捷運文湖線「劍南路站」3 號出口，<br>步行約 10 分鐘即可抵達。</p>
+              </div>
+            </div>
+            
+            <div class="t-item">
+              <svg class="t-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 16V8h4a2 2 0 010 4H9" />
+              </svg>
+              <div class="t-content">
+                <h4>Parking</h4>
+                <p>提供酒店專屬地下停車場<br>及周邊「敬業四路」備用停車場。</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="buttons-container">
+        <a href="#" class="btn-outline">Official Line</a>
+        <a href="#" class="btn-outline">Seating Chart</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final Section: Interactive Gallery & Quote -->
+  <section id="final-section">
+    <div class="gallery-scroll-container">
+        <!-- Interactive images -->
+        <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80" alt="Wedding 1" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80" alt="Wedding 2" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&w=800&q=80" alt="Wedding 3" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1532712938736-59c79db24716?auto=format&fit=crop&w=800&q=80" alt="Wedding 4" onclick="openLightbox(this.src)">
+        <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=800&q=80" alt="Wedding 5" onclick="openLightbox(this.src)">
+    </div>
+    <div id="final-quote">
+      <p class="quote-text bright-silver" id="end-quote">For more than half a lifetime,<br>and for all the days to come.</p>
+    </div>
+  </section>
+
+</div>
+
+<!-- Lightbox Element -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+  <span class="close-lightbox">&times;</span>
+  <img id="lightbox-img" src="">
+</div>
+
+<script>
+// Lightbox logic
+function openLightbox(src) {
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox').classList.add('active');
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('active');
+}
+
+(function() {
+  // ===================== SCROLL VIDEO =====================
+  const VIDEO_URL = 'White_rose_deconstructing_in_mid…_202606272216.mp4';
+  const canvas = document.getElementById('video-canvas');
+  const videoEl = document.getElementById('video-fallback');
+  const ctx = canvas.getContext('2d');
+  let frames = [];
+  let framesReady = false;
+  let lastFrameIndex = -1;
+  let videoSeeking = false;
+
+  function resizeCanvas() {
+    const dpr = Math.min(devicePixelRatio, 2);
+    const rect = canvas.getBoundingClientRect();
+    const w = Math.round(rect.width * dpr);
+    const h = Math.round(rect.height * dpr);
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+    lastFrameIndex = -1;
+  }
+
+  async function extractFrames() {
+    try {
+      const response = await fetch(VIDEO_URL, { mode: 'cors' });
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+
+      const video = document.createElement('video');
+      video.muted = true;
+      video.playsInline = true;
+      video.crossOrigin = 'anonymous';
+      video.preload = 'auto';
+      video.src = objectUrl;
+
+      await new Promise((resolve, reject) => {
+        video.onloadedmetadata = () => resolve();
+        video.onerror = () => reject();
+        setTimeout(() => reject(), 15000);
+      });
+
+      const scale = Math.min(1, 1280 / video.videoWidth);
+      const scaledWidth = Math.round(video.videoWidth * scale);
+      const scaledHeight = Math.round(video.videoHeight * scale);
+      const frameCount = Math.max(30, Math.min(120, Math.round(video.duration * 24)));
+
+      for (let i = 0; i < frameCount; i++) {
+        const time = (i / (frameCount - 1)) * (video.duration - 0.05);
+        video.currentTime = time;
+        await new Promise((resolve, reject) => {
+          const onSeeked = () => { video.removeEventListener('seeked', onSeeked); resolve(); };
+          video.addEventListener('seeked', onSeeked);
+          setTimeout(() => { video.removeEventListener('seeked', onSeeked); reject(); }, 3000);
+        });
+        const bitmap = await createImageBitmap(video, { resizeWidth: scaledWidth, resizeHeight: scaledHeight });
+        frames.push(bitmap);
+      }
+
+      if (frames.length > 0) {
+        framesReady = true;
+        canvas.style.visibility = 'visible';
+        videoEl.style.display = 'none';
+      }
+      URL.revokeObjectURL(objectUrl);
+    } catch(e) { /* fallback */ }
+  }
+
+  function getProgress() {
+    const scrollY = window.scrollY;
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll <= 0) return 0;
+    return Math.max(0, Math.min(1, scrollY / maxScroll));
+  }
+
+  function drawFrame(frame) {
+    const cw = canvas.width, ch = canvas.height;
+    const s = Math.max(cw / frame.width, ch / frame.height);
+    const dw = frame.width * s, dh = frame.height * s;
+    ctx.drawImage(frame, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  }
+
+  function videoTick() {
+    const progress = getProgress();
+    
+    // Sync Video
+    if (framesReady && frames.length > 0) {
+      const idx = Math.round(progress * (frames.length - 1));
+      if (idx !== lastFrameIndex) {
+        lastFrameIndex = idx;
+        if (frames[idx]) drawFrame(frames[idx]);
+      }
+    } else if (videoEl.duration && isFinite(videoEl.duration) && videoEl.readyState >= 1) {
+      const target = progress * videoEl.duration;
+      if (!videoSeeking && Math.abs(videoEl.currentTime - target) > 0.001) {
+        videoSeeking = true;
+        videoEl.currentTime = target;
+      }
+    }
+
+    // Sync Counter (0 to 6704 days)
+    const currentDays = Math.round(progress * 6704);
+    const currentWeeks = Math.floor(currentDays / 7);
+    const currentMonths = Math.floor(currentDays / 30);
+    const currentYears = Math.floor(currentDays / 365);
+    
+    document.getElementById('c-years').innerText = currentYears;
+    document.getElementById('c-months').innerText = currentMonths;
+    document.getElementById('c-weeks').innerText = currentWeeks;
+    document.getElementById('c-days').innerText = currentDays;
+
+    // Reveal Final Quote if near bottom
+    const endQuote = document.getElementById('end-quote');
+    if (progress > 0.98) {
+      endQuote.classList.add('visible');
+    } else {
+      endQuote.classList.remove('visible');
+    }
+
+    requestAnimationFrame(videoTick);
+  }
+
+  videoEl.addEventListener('seeked', () => { videoSeeking = false; });
+  videoEl.addEventListener('stalled', () => { videoSeeking = false; });
+  videoEl.addEventListener('loadeddata', () => { videoEl.currentTime = 0; });
+  canvas.style.visibility = 'hidden';
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+  requestAnimationFrame(videoTick);
+  extractFrames();
+
+  // ===================== PARTICLES =====================
+  const pCanvas = document.getElementById('particles-canvas');
+  const pCtx = pCanvas.getContext('2d');
+  let particles = [];
+
+  function resizeParticles() {
+    pCanvas.width = window.innerWidth;
+    pCanvas.height = window.innerHeight;
+    createParticles();
+  }
+
+  function createParticles() {
+    particles = [];
+    const count = Math.floor((pCanvas.width * pCanvas.height) / 10000);
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * pCanvas.width,
+        y: Math.random() * pCanvas.height,
+        vx: (Math.random() - 0.5) * 0.2,
+        vy: (Math.random() - 0.5) * 0.2,
+        size: Math.random() * 2 + 0.5,
+        opacity: Math.random() * 0.6 + 0.1
+      });
+    }
+  }
+
+  function animateParticles() {
+    pCtx.clearRect(0, 0, pCanvas.width, pCanvas.height);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = pCanvas.width;
+      if (p.x > pCanvas.width) p.x = 0;
+      if (p.y < 0) p.y = pCanvas.height;
+      if (p.y > pCanvas.height) p.y = 0;
+      pCtx.beginPath();
+      pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      pCtx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+      pCtx.fill();
+    }
+    requestAnimationFrame(animateParticles);
+  }
+
+  resizeParticles();
+  window.addEventListener('resize', resizeParticles);
+  animateParticles();
+
+  // ===================== HERO FADE =====================
+  function updateHeroOpacity() {
+    const fade = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.4));
+    document.querySelector('#hero .inner-content').style.opacity = fade;
+  }
+  window.addEventListener('scroll', updateHeroOpacity, { passive: true });
+  updateHeroOpacity();
+
+  // ===================== INTERSECTION REVEALS =====================
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.obs-target').forEach(el => observer.observe(el));
+
+  // Horizontal Scroll with Mouse Wheel logic for the gallery
+  const gallery = document.querySelector('.gallery-scroll-container');
+  gallery.addEventListener('wheel', (evt) => {
+    if (evt.deltaY != 0) {
+      // Prevent vertical scrolling while hovering the gallery
+      evt.preventDefault();
+      gallery.scrollLeft += evt.deltaY;
+    }
+  });
+
+})();
+</script>
+</body>
+</html>
