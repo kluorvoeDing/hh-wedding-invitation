@@ -233,7 +233,7 @@ section {
 
 <div id="scroll-video-container">
   <canvas id="video-canvas"></canvas>
-  <video id="video-fallback" autoplay loop muted playsinline preload="auto"
+  <video id="video-fallback" muted playsinline preload="auto"
     src="bg.mp4"
   ></video>
   <div class="overlay"></div>
@@ -565,6 +565,12 @@ function closeLightbox() {
       if (idx !== lastFrameIndex) {
         lastFrameIndex = idx;
         if (frames[idx]) drawFrame(frames[idx]);
+      }
+    } else if (videoEl.duration && isFinite(videoEl.duration) && videoEl.readyState >= 1) {
+      const target = progress * videoEl.duration;
+      if (!videoSeeking && Math.abs(videoEl.currentTime - target) > 0.001) {
+        videoSeeking = true;
+        videoEl.currentTime = target;
       }
     }
 
