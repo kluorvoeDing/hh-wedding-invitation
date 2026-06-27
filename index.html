@@ -227,10 +227,20 @@ section {
   .counter-row span { font-size: 1.2rem; }
   .counter-row .unit { font-size: 0.6rem; letter-spacing: 0.2em; }
 }
+#mobile-bg {
+  position: fixed; inset: 0; z-index: -10;
+  background: url('bg-mobile.jpg') center/cover no-repeat;
+  display: none;
+}
+@media (max-width: 768px) {
+  #scroll-video-container { display: none !important; }
+  #mobile-bg { display: block; }
+}
 </style>
 </head>
 <body>
 
+<div id="mobile-bg"></div>
 <div id="scroll-video-container">
   <canvas id="video-canvas"></canvas>
   <video id="video-fallback" muted playsinline preload="auto"
@@ -604,7 +614,10 @@ function closeLightbox() {
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
   requestAnimationFrame(videoTick);
-  extractFrames();
+  
+  if (window.innerWidth > 768) {
+    extractFrames();
+  }
 
   // ===================== PARTICLES =====================
   const pCanvas = document.getElementById('particles-canvas');
