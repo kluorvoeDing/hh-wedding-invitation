@@ -67,7 +67,7 @@ nav {
   padding: clamp(0.75rem, 2vw, 1.5rem); pointer-events: none;
 }
 nav img.logo {
-  height: clamp(64px, 9vw, 120px); width: auto; max-width: 80vw;
+  height: clamp(54px, 6.5vw, 96px); width: auto; max-width: 70vw;
   object-fit: contain;
 }
 
@@ -103,6 +103,12 @@ section {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   padding: 0 clamp(1rem, 4vw, 2rem);
 }
+/* Reserve safe space at top (floating logo) and bottom (fixed counter) so
+   centered content never sits under the HUD. */
+#chinese-layout, #combined-section, #transport-section {
+  padding-top: clamp(6.5rem, 15vh, 9rem);
+  padding-bottom: clamp(5rem, 11vh, 7rem);
+}
 .spacer { height: 100vh; height: 100svh; }
 .inner-content {
   text-align: center; position: relative; z-index: 10; width: 100%;
@@ -128,42 +134,52 @@ section {
 }
 
 /* Chinese Layout (Scene 2) */
-.invite-header { font-size: clamp(1.05rem, 2.5vw, 1.5rem); letter-spacing: 0.5em; color: #E0E0E0; margin-bottom: clamp(2rem, 5vw, 4rem); text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.invite-header { font-size: clamp(1.05rem, 2.5vw, 1.5rem); letter-spacing: 0.5em; color: #E0E0E0; margin-bottom: clamp(1.5rem, 3vw, 2.75rem); text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
 .c-two-column { display: flex; align-items: center; justify-content: center; gap: clamp(1rem, 6vw, 6rem); }
-.c-col { display: flex; flex-direction: column; align-items: center; gap: clamp(1.25rem, 3vw, 2.5rem); min-width: 0; }
+.c-col { display: flex; flex-direction: column; align-items: center; gap: clamp(1rem, 2.5vw, 2rem); min-width: 0; }
 .c-role { font-size: clamp(0.9rem, 2vw, 1.3rem); letter-spacing: 0.4em; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
 .c-name { font-size: clamp(1.6rem, 5vw, 3rem); letter-spacing: 0.6em; padding-left: 0.6em; color: #fff; text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,1); white-space: nowrap; }
 .c-parents { font-size: clamp(0.85rem, 2vw, 1.3rem); letter-spacing: 0.2em; color: #FFFFFF; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); white-space: nowrap; }
 .c-amp { font-size: clamp(1.5rem, 4vw, 4rem); color: #FFFFFF; font-family: 'Montserrat', sans-serif; font-weight: 300; opacity: 0.8; text-shadow: 0 2px 10px rgba(0,0,0,0.9); flex-shrink: 0; }
+/* Formal invitation lines + ornament divider */
+.c-divider { display: flex; align-items: center; justify-content: center; gap: 0.8rem; margin: clamp(1.5rem, 3.5vw, 2.5rem) auto clamp(1.25rem, 3vw, 1.75rem); max-width: 360px; }
+.c-divider::before, .c-divider::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(248,248,248,0.5)); }
+.c-divider::after { transform: scaleX(-1); }
+.c-divider span { width: 6px; height: 6px; transform: rotate(45deg); background: #F8F8F8; box-shadow: 0 0 8px rgba(255,255,255,0.6); flex-shrink: 0; }
+.c-formal { display: flex; flex-direction: column; gap: clamp(0.5rem, 1.5vw, 0.9rem); }
+.c-formal p { font-size: clamp(0.92rem, 2vw, 1.2rem); letter-spacing: 0.12em; line-height: 1.7; color: #EDEDED; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.c-formal .c-formal-accent { font-size: clamp(1rem, 2.2vw, 1.35rem); letter-spacing: 0.28em; text-indent: 0.28em; color: #fff; margin-top: 0.4rem; }
 
 /* Combined Calendar & Venue (Scene 3) */
 #combined-section { gap: clamp(2rem, 5vw, 5rem); }
 #calendar-block { display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 4rem); align-items: center; }
 #calendar-block h2 { font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: 0.3em; margin-bottom: 0; font-family: 'Montserrat', sans-serif; font-weight: 300; text-transform: uppercase; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1);}
-.calendar-img { width: 100%; max-width: clamp(280px, 52vw, 440px); height: auto; margin: 0 auto; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
-.venue-flex { display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 3vw, 2.5rem); text-align: left; border-top: 1px solid rgba(255,255,255,0.2); padding-top: clamp(2rem, 4vw, 4rem); width: 80%; }
-.venue-logo { height: clamp(60px, 10vw, 100px); width: auto; max-width: 100%; object-fit: contain; filter: brightness(0) invert(1) opacity(0.9) drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
+.calendar-img { width: 100%; max-width: clamp(300px, 58vw, 520px); height: auto; margin: 0 auto; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
+.venue-flex { display: flex; align-items: center; justify-content: center; gap: clamp(1.25rem, 3vw, 2.25rem); text-align: left; border-top: 1px solid rgba(255,255,255,0.2); padding-top: clamp(2rem, 4vw, 4rem); width: 85%; }
+.venue-logo { height: clamp(64px, 9vw, 96px); width: auto; max-width: 100%; object-fit: contain; flex-shrink: 0; filter: brightness(0) invert(1) opacity(0.9) drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
 .venue-text h3 { font-family: 'Montserrat', sans-serif; font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 300; letter-spacing: 0.2em; margin-bottom: 0.5rem; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
 .venue-text p { font-size: clamp(1rem, 2.5vw, 1.4rem); letter-spacing: 0.1em; color: #FFFFFF; line-height: 1.5; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
 
-/* Transport (Scene 4) */
-.transport-card { padding: 0; position: relative; width: 100%; margin: 0 auto; text-align: center; border: none; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 3rem); }
-.t-grid { display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 3rem); align-items: center; }
-.map-img { width: 100%; max-width: clamp(280px, 62vw, 560px); height: auto; border-radius: 8px; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
-.t-info { display: flex; flex-direction: row; justify-content: center; gap: clamp(2rem, 4vw, 4rem); flex-wrap: wrap; text-align: left; }
-.t-item { display: flex; gap: 1rem; align-items: flex-start; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); max-width: 350px; }
-.t-icon { width: 28px; height: 28px; color: #E0E0E0; flex-shrink: 0; margin-top: 0.2rem; }
-.t-content h4 { font-family: 'Montserrat', sans-serif; font-size: 1.1rem; letter-spacing: 0.2em; color: #FFFFFF; margin-bottom: 0.5rem; text-transform: uppercase; font-weight: 600; }
-.t-content p { font-size: clamp(1rem, 2.2vw, 1.2rem); letter-spacing: 0.1em; color: #fff; line-height: 1.6; }
+/* Transport (Scene 4) — map on the left, info + buttons on the right */
+.transport-card { padding: 0; position: relative; width: 100%; margin: 0 auto; text-align: center; border: none; box-shadow: none; background: transparent; display: flex; flex-direction: column; }
+.t-grid { display: flex; flex-direction: row; gap: clamp(1.75rem, 4vw, 3.5rem); align-items: center; justify-content: center; }
+.map-img { width: 100%; max-width: clamp(300px, 40vw, 470px); height: auto; border-radius: 8px; flex-shrink: 0; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
+.t-side { display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 2.25rem); flex: 1; min-width: 0; max-width: 400px; }
+.t-info { display: flex; flex-direction: column; gap: clamp(1.25rem, 2.5vw, 1.75rem); text-align: left; }
+.t-item { display: flex; gap: 1rem; align-items: flex-start; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.t-icon { width: 26px; height: 26px; color: #E0E0E0; flex-shrink: 0; margin-top: 0.2rem; }
+.t-content h4 { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; letter-spacing: 0.2em; color: #FFFFFF; margin-bottom: 0.4rem; text-transform: uppercase; font-weight: 600; }
+.t-content p { font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 0.1em; color: #fff; line-height: 1.6; }
 
 /* Final Gallery & Quote (Scene 5) */
 #final-section {
   position: relative;
   min-height: 100vh; min-height: 100svh;
   display: flex; flex-direction: column; justify-content: center;
-  background: transparent; z-index: 20; padding: 0; overflow: hidden;
+  background: transparent; z-index: 20; overflow: hidden;
+  padding: clamp(6rem, 14vh, 8.5rem) 0 clamp(5rem, 11vh, 7rem);
 }
-.gallery-wrap { position: relative; width: 100%; margin-bottom: clamp(2.5rem, 6vh, 5rem); }
+.gallery-wrap { position: relative; width: 100%; margin-bottom: clamp(2rem, 5vh, 4rem); }
 .gallery-scroll-container {
   width: 100%; overflow-x: auto; white-space: nowrap;
   padding: 2rem clamp(1rem, 4vw, 3.5rem); scroll-snap-type: x proximity; scroll-behavior: smooth;
@@ -227,11 +243,12 @@ section {
 #final-quote.visible .quote-text,
 #final-quote .quote-text.visible { opacity: 1; transform: translateY(0); }
 
-/* Buttons */
-.buttons-container { display: flex; gap: 1.5rem; justify-content: center; margin-top: clamp(2.5rem, 5vw, 4rem); flex-wrap: wrap; }
+/* Buttons — two-column */
+.buttons-container { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; justify-content: center; }
 .btn-outline {
-  display: inline-block; padding: 1rem 2.5rem; border: 1px solid #E0E0E0; color: #E0E0E0;
-  text-decoration: none; font-size: 1rem; letter-spacing: 0.2em; text-transform: uppercase;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 0.95rem 1rem; border: 1px solid #E0E0E0; color: #E0E0E0;
+  text-decoration: none; font-size: clamp(0.85rem, 1.6vw, 1rem); letter-spacing: 0.18em; text-transform: uppercase;
   transition: all 0.3s ease; border-radius: 2px; font-family: 'Montserrat', sans-serif;
   background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
 }
@@ -273,8 +290,16 @@ section {
 @media (max-width: 1024px) {
   #combined-section, #chinese-layout, #transport-section { padding-top: clamp(5rem, 12vh, 8rem); padding-bottom: clamp(5rem, 12vh, 8rem); }
   .c-two-column { gap: clamp(1rem, 4vw, 3rem); }
-  .t-info { gap: 2.5rem; }
   .venue-flex { width: 90%; }
+}
+
+/* Stack the transport map over the info below ~900px (narrow tablets / portrait) */
+@media (max-width: 900px) {
+  .t-grid { flex-direction: column; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem); }
+  .map-img { max-width: min(70vw, 460px); }
+  .t-side { width: 100%; max-width: 520px; }
+  .t-info { flex-direction: row; justify-content: center; gap: clamp(1.5rem, 4vw, 3rem); flex-wrap: wrap; }
+  .t-item { max-width: 340px; }
 }
 
 /* ---- Mobile ---- */
@@ -309,25 +334,24 @@ section {
   .c-parents { font-size: clamp(0.78rem, 3.4vw, 0.95rem); letter-spacing: 0.08em; }
   .c-amp { display: block; font-size: 1.5rem; align-self: center; }
 
-  /* Page 3 — use the page height; larger calendar + more generous spacing */
-  #calendar-block { gap: clamp(2.25rem, 6vh, 3.5rem); }
-  .calendar-img { max-width: min(84vw, 340px); }
-  .venue-flex { flex-direction: column; text-align: center; gap: 1.25rem; padding-top: clamp(2rem, 5vh, 3rem); width: 100%; }
-  .venue-logo { height: 64px; }
-  .venue-text h3 { font-size: 1.3rem; }
-  .venue-text p { font-size: 1.05rem; line-height: 1.7; }
+  /* Page 3 — larger calendar; keep the Marriott logo to the left of the text */
+  #calendar-block { gap: clamp(2rem, 5vh, 3rem); }
+  .calendar-img { max-width: min(90vw, 400px); }
+  .venue-flex { flex-direction: row; align-items: center; justify-content: center; text-align: left; gap: 1rem; padding-top: clamp(1.75rem, 4vh, 2.5rem); width: 100%; }
+  .venue-logo { height: 58px; }
+  .venue-text h3 { font-size: 1.15rem; }
+  .venue-text p { font-size: 0.98rem; line-height: 1.6; }
 
-  /* Page 4 — compress so the map + info + buttons fit one screen */
-  .map-img { max-width: min(78vw, 290px); }
-  .transport-card { gap: 1.25rem; }
-  .t-info { flex-direction: column; gap: 1.1rem; align-items: stretch; }
-  .t-item { max-width: 100%; align-items: flex-start; gap: 0.75rem; }
+  /* Page 4 — stack map over info; keep two-column buttons */
+  .t-grid { flex-direction: column; align-items: center; gap: 1.5rem; }
+  .map-img { max-width: min(82vw, 340px); }
+  .t-side { width: 100%; max-width: 420px; gap: 1.5rem; }
+  .t-info { flex-direction: column; gap: 1.1rem; }
+  .t-item { align-items: flex-start; gap: 0.75rem; max-width: 100%; }
   .t-content h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
   .t-content p { font-size: 0.9rem; line-height: 1.55; }
-
-  /* Full-width buttons */
-  .buttons-container { flex-direction: column; gap: 0.75rem; width: 100%; margin-top: 1.5rem; }
-  .btn-outline { width: 100%; padding: 0.85rem; font-size: 0.95rem; box-sizing: border-box; }
+  .buttons-container { gap: 0.7rem; }
+  .btn-outline { padding: 0.85rem 0.5rem; font-size: 0.82rem; letter-spacing: 0.12em; }
 
   .gallery-scroll-container img { height: clamp(220px, 38vh, 340px); margin-right: 1rem; }
 
@@ -422,6 +446,12 @@ section {
           <div class="c-parents">陳明志 &nbsp;鄒美琪</div>
         </div>
       </div>
+      <div class="c-divider"><span></span></div>
+      <div class="c-formal">
+        <p>謹訂於 二〇二六年九月五日　星期六</p>
+        <p>假 台北萬豪酒店 8 樓 GARDEN VILLA</p>
+        <p class="c-formal-accent">敬備喜筵　恭候光臨</p>
+      </div>
     </div>
   </section>
 
@@ -459,36 +489,38 @@ section {
                alt="台北萬豪酒店交通地圖，標示捷運劍南路站、虛線步行路線、停車場入口與飯店入口"
                width="1400" height="1400" loading="lazy" decoding="async" />
 
-          <div class="t-info">
-            <div class="t-item">
-              <svg class="t-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H8a2 2 0 01-2-2V5zm0 10h12M9 19l-2 3m8-3l2 3" />
-                <circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none"/>
-                <circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none"/>
-              </svg>
-              <div class="t-content">
-                <h4>MRT Station</h4>
-                <p>捷運文湖線「劍南路站」3 號出口，<br>步行約 10 分鐘即可抵達。</p>
+          <div class="t-side">
+            <div class="t-info">
+              <div class="t-item">
+                <svg class="t-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H8a2 2 0 01-2-2V5zm0 10h12M9 19l-2 3m8-3l2 3" />
+                  <circle cx="9" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                  <circle cx="15" cy="12" r="1.5" fill="currentColor" stroke="none"/>
+                </svg>
+                <div class="t-content">
+                  <h4>MRT Station</h4>
+                  <p>捷運文湖線「劍南路站」3 號出口，<br>步行約 10 分鐘即可抵達。</p>
+                </div>
+              </div>
+
+              <div class="t-item">
+                <svg class="t-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 16V8h4a2 2 0 010 4H9" />
+                </svg>
+                <div class="t-content">
+                  <h4>Parking</h4>
+                  <p>提供酒店專屬地下停車場<br>及周邊「敬業四路」備用停車場。</p>
+                </div>
               </div>
             </div>
 
-            <div class="t-item">
-              <svg class="t-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <rect x="4" y="4" width="16" height="16" rx="2" stroke-width="2" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 16V8h4a2 2 0 010 4H9" />
-              </svg>
-              <div class="t-content">
-                <h4>Parking</h4>
-                <p>提供酒店專屬地下停車場<br>及周邊「敬業四路」備用停車場。</p>
-              </div>
+            <div class="buttons-container">
+              <a href="https://line.me/R/ti/p/@921trmds" class="btn-outline" target="_blank" rel="noopener">Official Line</a>
+              <a href="https://seating-lookup.vercel.app" class="btn-outline" target="_blank" rel="noopener">Seating Chart</a>
             </div>
           </div>
         </div>
-      </div>
-
-      <div class="buttons-container">
-        <a href="#" class="btn-outline">Official Line</a>
-        <a href="#" class="btn-outline">Seating Chart</a>
       </div>
     </div>
   </section>
@@ -608,11 +640,12 @@ function closeLightbox() {
         setTimeout(() => reject(new Error('metadata timeout')), 15000);
       });
 
-      const scale = Math.min(1, 1280 / video.videoWidth);
+      // Cap resolution + frame count to keep GPU memory bounded (Safari can
+      // crash the tab with too many large ImageBitmaps) while staying smooth.
+      const scale = Math.min(1, 960 / video.videoWidth);
       const scaledWidth = Math.round(video.videoWidth * scale);
       const scaledHeight = Math.round(video.videoHeight * scale);
-      // Cap frame count to keep memory bounded while staying smooth.
-      const frameCount = Math.max(30, Math.min(90, Math.round(video.duration * 20)));
+      const frameCount = Math.max(24, Math.min(60, Math.round(video.duration * 16)));
 
       const collected = [];
       for (let i = 0; i < frameCount; i++) {
