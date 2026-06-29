@@ -114,6 +114,18 @@ section {
 #hero h1 { font-size: clamp(3.5rem, 8vw, 7rem); font-weight: normal; line-height: 1.2; letter-spacing: 0.1em; margin-bottom: 2rem; color: #fff; text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,1); }
 #hero h1 .amp { font-size: 0.5em; vertical-align: middle; margin: 0 0.5rem; color: #E0E0E0; text-shadow: 0 2px 10px rgba(0,0,0,0.9); }
 #hero .date { font-family: 'Montserrat', sans-serif; font-size: clamp(1.2rem, 4vw, 2.2rem); letter-spacing: 0.5em; color: #FFFFFF; font-weight: 300; text-shadow: 0 4px 15px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1); margin-top: 1.5rem; }
+#hero .hero-eyebrow {
+  font-family: 'Montserrat', sans-serif; font-weight: 400;
+  font-size: clamp(0.7rem, 1.6vw, 0.95rem); letter-spacing: 0.55em; text-indent: 0.55em;
+  text-transform: uppercase; color: #E8E8E8; margin-bottom: clamp(1.25rem, 3vw, 2rem);
+  text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1);
+}
+#hero .hero-tagline {
+  font-family: 'Diphylleia', serif; font-style: italic;
+  font-size: clamp(0.9rem, 2vw, 1.2rem); letter-spacing: 0.12em; line-height: 1.9;
+  color: #E8E8E8; margin-top: clamp(1.5rem, 3.5vw, 2.5rem); opacity: 0.92;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1);
+}
 
 /* Chinese Layout (Scene 2) */
 .invite-header { font-size: clamp(1.05rem, 2.5vw, 1.5rem); letter-spacing: 0.5em; color: #E0E0E0; margin-bottom: clamp(2rem, 5vw, 4rem); text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
@@ -137,7 +149,7 @@ section {
 /* Transport (Scene 4) */
 .transport-card { padding: 0; position: relative; width: 100%; margin: 0 auto; text-align: center; border: none; box-shadow: none; background: transparent; display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 3rem); }
 .t-grid { display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 3rem); align-items: center; }
-.map-img { width: 100%; max-width: clamp(280px, 80vw, 760px); height: auto; border-radius: 8px; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
+.map-img { width: 100%; max-width: clamp(280px, 62vw, 560px); height: auto; border-radius: 8px; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
 .t-info { display: flex; flex-direction: row; justify-content: center; gap: clamp(2rem, 4vw, 4rem); flex-wrap: wrap; text-align: left; }
 .t-item { display: flex; gap: 1rem; align-items: flex-start; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); max-width: 350px; }
 .t-icon { width: 28px; height: 28px; color: #E0E0E0; flex-shrink: 0; margin-top: 0.2rem; }
@@ -154,8 +166,10 @@ section {
 .gallery-wrap { position: relative; width: 100%; margin-bottom: clamp(2.5rem, 6vh, 5rem); }
 .gallery-scroll-container {
   width: 100%; overflow-x: auto; white-space: nowrap;
-  padding: 2rem clamp(1rem, 4vw, 3.5rem); scroll-snap-type: x mandatory; scroll-behavior: smooth;
+  padding: 2rem clamp(1rem, 4vw, 3.5rem); scroll-snap-type: x proximity; scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  /* keep horizontal gallery scroll from hijacking vertical page scroll */
+  overscroll-behavior-x: contain;
 }
 /* Hide scrollbar */
 .gallery-scroll-container::-webkit-scrollbar { display: none; }
@@ -177,19 +191,40 @@ section {
 .gallery-nav.next { right: clamp(0.5rem, 2vw, 1.5rem); }
 
 .gallery-scroll-container img {
-  height: 40vh; width: auto; object-fit: cover; margin-right: 2rem; border-radius: 4px;
+  height: clamp(260px, 34vh, 420px); width: auto; object-fit: cover; margin-right: 2rem; border-radius: 4px;
   filter: grayscale(80%) contrast(1.1) brightness(0.9); transition: all 0.4s ease;
   scroll-snap-align: center; cursor: pointer; display: inline-block;
   box-shadow: 0 10px 30px rgba(0,0,0,0.8);
 }
 .gallery-scroll-container img:hover { filter: grayscale(0%) contrast(1) brightness(1.1); transform: scale(1.02); }
 
+#final-quote { padding: 0 clamp(1.25rem, 5vw, 2rem); text-align: center; }
+/* Decorative divider — thin silver lines flanking a small diamond */
+#final-quote .quote-ornament {
+  display: flex; align-items: center; justify-content: center; gap: 0.9rem;
+  margin: 0 auto clamp(1.5rem, 4vw, 2.5rem); max-width: 320px;
+  opacity: 0; transform: translateY(20px); transition: all 1.6s ease;
+}
+#final-quote .quote-ornament::before,
+#final-quote .quote-ornament::after {
+  content: ''; flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(248,248,248,0.6));
+}
+#final-quote .quote-ornament::after { transform: scaleX(-1); }
+#final-quote .quote-ornament span {
+  width: 7px; height: 7px; transform: rotate(45deg); flex-shrink: 0;
+  background: #F8F8F8; box-shadow: 0 0 8px rgba(255,255,255,0.7);
+}
+#final-quote.visible .quote-ornament { opacity: 0.85; transform: translateY(0); }
 #final-quote .quote-text {
-  font-size: clamp(2rem, 5vw, 3.5rem); letter-spacing: 0.15em; line-height: 2;
-  text-align: center; font-family: 'Diphylleia', serif;
+  font-size: clamp(1.5rem, 4vw, 3rem); letter-spacing: 0.18em; line-height: 1.9;
+  text-align: center; font-family: 'Diphylleia', serif; font-style: italic;
   opacity: 0; transform: translateY(20px); transition: all 2s ease;
   text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,1);
 }
+#final-quote .quote-text .line { display: block; }
+#final-quote .quote-text .line + .line { margin-top: 0.5em; }
+#final-quote.visible .quote-text,
 #final-quote .quote-text.visible { opacity: 1; transform: translateY(0); }
 
 /* Buttons */
@@ -248,14 +283,18 @@ section {
   #scroll-video-container { display: none !important; }
   #mobile-bg { display: block; }
 
-  /* No scroll-video on mobile -> drop the empty scroll spacers and let
-     sections size to their content so there is no large blank scrolling. */
+  /* No scroll-video on mobile -> drop the empty scroll spacers. Each scene is
+     its own full-height page that snaps into view, so pages don't bleed into
+     each other and there is no large blank scrolling. */
   .spacer { display: none; }
-  section { min-height: auto; padding-top: clamp(4.5rem, 13vh, 6.5rem); padding-bottom: clamp(3.5rem, 9vh, 5.5rem); }
-  #hero { min-height: 100svh; padding-top: 0; padding-bottom: 0; }
-  #final-section { min-height: 100svh; }
+  html { scroll-snap-type: y proximity; }
+  section {
+    min-height: 100svh; scroll-snap-align: start;
+    padding-top: clamp(5rem, 14vh, 7rem); padding-bottom: clamp(3.75rem, 9vh, 5rem);
+  }
+  #hero { padding-top: 0; padding-bottom: 0; }
 
-  .glass-panel { padding: 1.5rem; border-radius: 12px; }
+  .glass-panel { padding: 1.5rem 1.25rem; border-radius: 12px; }
 
   #hero h1 { font-size: clamp(2.5rem, 12vw, 4rem); margin-bottom: 1rem; }
   #hero .date { font-size: 1.2rem; letter-spacing: 0.3em; }
@@ -270,28 +309,31 @@ section {
   .c-parents { font-size: clamp(0.78rem, 3.4vw, 0.95rem); letter-spacing: 0.08em; }
   .c-amp { display: block; font-size: 1.5rem; align-self: center; }
 
-  #calendar-block { gap: 2rem; }
-  .calendar-img { max-width: min(86vw, 300px); }
-  .venue-flex { flex-direction: column; text-align: center; gap: 1.5rem; padding-top: 2rem; width: 100%; }
-  .venue-logo { height: 60px; }
-  .venue-text h3 { font-size: 1.2rem; }
-  .venue-text p { font-size: 1rem; }
+  /* Page 3 — use the page height; larger calendar + more generous spacing */
+  #calendar-block { gap: clamp(2.25rem, 6vh, 3.5rem); }
+  .calendar-img { max-width: min(84vw, 340px); }
+  .venue-flex { flex-direction: column; text-align: center; gap: 1.25rem; padding-top: clamp(2rem, 5vh, 3rem); width: 100%; }
+  .venue-logo { height: 64px; }
+  .venue-text h3 { font-size: 1.3rem; }
+  .venue-text p { font-size: 1.05rem; line-height: 1.7; }
 
-  .map-img { max-width: 92vw; }
-  .transport-card { gap: 1.5rem; }
-  .t-info { flex-direction: column; gap: 2rem; align-items: stretch; }
-  .t-item { max-width: 100%; align-items: flex-start; }
-  .t-content h4 { font-size: 1rem; }
-  .t-content p { font-size: 0.95rem; }
+  /* Page 4 — compress so the map + info + buttons fit one screen */
+  .map-img { max-width: min(78vw, 290px); }
+  .transport-card { gap: 1.25rem; }
+  .t-info { flex-direction: column; gap: 1.1rem; align-items: stretch; }
+  .t-item { max-width: 100%; align-items: flex-start; gap: 0.75rem; }
+  .t-content h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
+  .t-content p { font-size: 0.9rem; line-height: 1.55; }
 
   /* Full-width buttons */
-  .buttons-container { flex-direction: column; gap: 1rem; width: 100%; margin-top: 2.5rem; }
-  .btn-outline { width: 100%; padding: 1rem; font-size: 1rem; box-sizing: border-box; }
+  .buttons-container { flex-direction: column; gap: 0.75rem; width: 100%; margin-top: 1.5rem; }
+  .btn-outline { width: 100%; padding: 0.85rem; font-size: 0.95rem; box-sizing: border-box; }
 
-  /* Keep content clear of the fixed counter HUD at the bottom of the viewport */
-  #transport-section { padding-bottom: 6rem; }
+  .gallery-scroll-container img { height: clamp(220px, 38vh, 340px); margin-right: 1rem; }
 
-  .gallery-scroll-container img { height: 38vh; margin-right: 1rem; }
+  /* Page 5 — keep the quote as two elegant single lines */
+  #final-quote .quote-text { font-size: clamp(0.95rem, 4.3vw, 1.3rem); letter-spacing: 0.12em; line-height: 1.7; }
+  #final-quote .quote-ornament { margin-bottom: 1.5rem; }
 }
 
 /* ---- Small Mobile ---- */
@@ -349,8 +391,10 @@ section {
   <!-- 1. Hero -->
   <section id="hero">
     <div class="inner-content">
+      <p class="hero-eyebrow">Save the Date</p>
       <h1>Henry <span class="amp">&</span> Hellen</h1>
       <p class="date">2026 . 09 . 05</p>
+      <p class="hero-tagline">Together with our families,<br>we invite you to our wedding.</p>
     </div>
   </section>
 
@@ -464,7 +508,8 @@ section {
       <button class="gallery-nav next" type="button" aria-label="下一張照片">&#8250;</button>
     </div>
     <div id="final-quote">
-      <p class="quote-text bright-silver" id="end-quote">For more than half a lifetime,<br>and for all the days to come.</p>
+      <div class="quote-ornament"><span></span></div>
+      <p class="quote-text bright-silver" id="end-quote"><span class="line">For more than half a lifetime,</span><span class="line">and for all the days to come.</span></p>
     </div>
   </section>
 
@@ -502,7 +547,7 @@ function closeLightbox() {
   const elMonths = document.getElementById('c-months');
   const elWeeks  = document.getElementById('c-weeks');
   const elDays   = document.getElementById('c-days');
-  const endQuote = document.getElementById('end-quote');
+  const endQuote = document.getElementById('final-quote');
   const heroInner = document.querySelector('#hero .inner-content');
 
   // ---- state ----
@@ -727,16 +772,12 @@ function closeLightbox() {
   }, { threshold: 0.15 });
   document.querySelectorAll('.obs-target').forEach(el => observer.observe(el));
 
-  // ---- gallery horizontal wheel scroll + prev/next controls ----
+  // ---- gallery prev/next controls ----
+  // (No wheel hijacking: converting vertical wheel/trackpad gestures into
+  //  horizontal scroll stole the page's vertical scroll. Use the arrows or a
+  //  native horizontal swipe/trackpad gesture instead.)
   const gallery = document.querySelector('.gallery-scroll-container');
   if (gallery) {
-    gallery.addEventListener('wheel', (evt) => {
-      if (evt.deltaY !== 0) {
-        evt.preventDefault();
-        gallery.scrollLeft += evt.deltaY;
-      }
-    });
-
     const stepBy = () => {
       const first = gallery.querySelector('img');
       // advance roughly one image (image width + its right margin)
