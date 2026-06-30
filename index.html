@@ -19,6 +19,13 @@
 html, body { overflow-x: hidden; scroll-behavior: smooth; }
 body { font-family: 'Diphylleia', serif; background: #010101; color: #E0E0E0; }
 
+:root {
+  /* Vertical safe zones so centered cards keep comfortable space below the
+     floating logo (top) and above the fixed counter (bottom). */
+  --hud-top: clamp(6.5rem, 13.5vh, 8.5rem);
+  --hud-bottom: clamp(4.75rem, 10.5vh, 6.75rem);
+}
+
 .fixed { position: fixed; }
 .absolute { position: absolute; }
 .relative { position: relative; }
@@ -31,11 +38,11 @@ body { font-family: 'Diphylleia', serif; background: #010101; color: #E0E0E0; }
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   border-radius: 16px;
-  padding: clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(1.5rem, 3.2vw, 2.5rem);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   width: 100%;
-  max-width: 900px;
+  max-width: min(900px, 88vw);
   margin: 0 auto;
 }
 
@@ -53,21 +60,25 @@ body { font-family: 'Diphylleia', serif; background: #010101; color: #E0E0E0; }
 }
 #scroll-video-container .overlay { position: absolute; inset: 0; background: transparent; }
 
-/* Static mobile background */
+/* Static mobile background (lightweight scroll-driven rotation in JS;
+   over-scaled so the corners stay covered while it turns) */
 #mobile-bg {
   position: fixed; inset: 0; z-index: -10;
   background: url('bg-mobile.jpg') center/cover no-repeat;
   display: none;
+  transform-origin: center center;
+  transform: scale(1.5);
+  will-change: transform;
 }
 
 /* Nav */
 nav {
   position: fixed; top: 0; left: 0; right: 0; z-index: 50;
   display: flex; align-items: center; justify-content: center;
-  padding: clamp(0.75rem, 2vw, 1.5rem); pointer-events: none;
+  padding: clamp(0.5rem, 1.2vw, 0.9rem); pointer-events: none;
 }
 nav img.logo {
-  height: clamp(54px, 6.5vw, 96px); width: auto; max-width: 70vw;
+  height: clamp(46px, 4.8vw, 74px); width: auto; max-width: 68vw;
   object-fit: contain;
 }
 
@@ -105,9 +116,9 @@ section {
 }
 /* Reserve safe space at top (floating logo) and bottom (fixed counter) so
    centered content never sits under the HUD. */
-#chinese-layout, #combined-section, #transport-section {
-  padding-top: clamp(6.5rem, 15vh, 9rem);
-  padding-bottom: clamp(5rem, 11vh, 7rem);
+#chinese-layout, #combined-section, #transport-section, #final-section {
+  padding-top: var(--hud-top);
+  padding-bottom: var(--hud-bottom);
 }
 .spacer { height: 100vh; height: 100svh; }
 .inner-content {
@@ -162,11 +173,12 @@ section {
 
 /* Transport (Scene 4) — map on the left, info + buttons on the right */
 .transport-card { padding: 0; position: relative; width: 100%; margin: 0 auto; text-align: center; border: none; box-shadow: none; background: transparent; display: flex; flex-direction: column; }
-.t-grid { display: flex; flex-direction: row; gap: clamp(1.75rem, 4vw, 3.5rem); align-items: center; justify-content: center; }
-.map-img { width: 100%; max-width: clamp(300px, 40vw, 470px); height: auto; border-radius: 8px; flex-shrink: 0; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
-.t-side { display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 2.25rem); flex: 1; min-width: 0; max-width: 400px; }
-.t-info { display: flex; flex-direction: column; gap: clamp(1.25rem, 2.5vw, 1.75rem); text-align: left; }
-.t-item { display: flex; gap: 1rem; align-items: flex-start; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+/* Same shape as mobile: map on top, MRT | Parking two-column, buttons two-column */
+.t-grid { display: flex; flex-direction: column; gap: clamp(1.5rem, 3vw, 2.5rem); align-items: center; justify-content: center; }
+.map-img { width: 100%; max-width: clamp(260px, 30vw, 320px); height: auto; border-radius: 8px; flex-shrink: 0; filter: drop-shadow(0 4px 15px rgba(0,0,0,0.8)); }
+.t-side { display: flex; flex-direction: column; gap: clamp(1.25rem, 2.5vw, 1.75rem); width: 100%; max-width: clamp(460px, 72vw, 700px); min-width: 0; }
+.t-info { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1.25rem, 3vw, 2.5rem); text-align: left; }
+.t-item { display: flex; gap: 0.85rem; align-items: flex-start; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); max-width: 100%; }
 .t-icon { width: 26px; height: 26px; color: #E0E0E0; flex-shrink: 0; margin-top: 0.2rem; }
 .t-content h4 { font-family: 'Montserrat', sans-serif; font-size: 1.05rem; letter-spacing: 0.2em; color: #FFFFFF; margin-bottom: 0.4rem; text-transform: uppercase; font-weight: 600; }
 .t-content p { font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 0.1em; color: #fff; line-height: 1.6; }
@@ -175,14 +187,14 @@ section {
 #final-section {
   position: relative;
   min-height: 100vh; min-height: 100svh;
-  display: flex; flex-direction: column; justify-content: center;
+  display: flex; flex-direction: column; justify-content: center; gap: clamp(1.5rem, 4vh, 3.25rem);
   background: transparent; z-index: 20; overflow: hidden;
-  padding: clamp(6rem, 14vh, 8.5rem) 0 clamp(5rem, 11vh, 7rem);
+  padding: var(--hud-top) 0 var(--hud-bottom);
 }
-.gallery-wrap { position: relative; width: 100%; margin-bottom: clamp(2rem, 5vh, 4rem); }
+.gallery-wrap { position: relative; width: 100%; margin-bottom: 0; flex-shrink: 0; }
 .gallery-scroll-container {
   width: 100%; overflow-x: auto; white-space: nowrap;
-  padding: 2rem clamp(1rem, 4vw, 3.5rem); scroll-snap-type: x proximity; scroll-behavior: smooth;
+  padding: 1.5rem clamp(3rem, 6vw, 5rem); scroll-snap-type: x proximity; scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   /* keep horizontal gallery scroll from hijacking vertical page scroll */
   overscroll-behavior-x: contain;
@@ -207,7 +219,7 @@ section {
 .gallery-nav.next { right: clamp(0.5rem, 2vw, 1.5rem); }
 
 .gallery-scroll-container img {
-  height: clamp(260px, 34vh, 420px); width: auto; object-fit: cover; margin-right: 2rem; border-radius: 4px;
+  height: clamp(240px, 30vh, 360px); width: auto; object-fit: cover; margin-right: 2rem; border-radius: 4px;
   filter: grayscale(80%) contrast(1.1) brightness(0.9); transition: all 0.4s ease;
   scroll-snap-align: center; cursor: pointer; display: inline-block;
   box-shadow: 0 10px 30px rgba(0,0,0,0.8);
@@ -218,7 +230,7 @@ section {
 /* Decorative divider — thin silver lines flanking a small diamond */
 #final-quote .quote-ornament {
   display: flex; align-items: center; justify-content: center; gap: 0.9rem;
-  margin: 0 auto clamp(1.5rem, 4vw, 2.5rem); max-width: 320px;
+  margin: 0 auto clamp(1rem, 2.5vw, 1.75rem); max-width: 320px;
   opacity: 0; transform: translateY(20px); transition: all 1.6s ease;
 }
 #final-quote .quote-ornament::before,
@@ -233,7 +245,7 @@ section {
 }
 #final-quote.visible .quote-ornament { opacity: 0.85; transform: translateY(0); }
 #final-quote .quote-text {
-  font-size: clamp(1.5rem, 4vw, 3rem); letter-spacing: 0.18em; line-height: 1.9;
+  font-size: clamp(1.2rem, 2.6vw, 2.1rem); letter-spacing: 0.18em; line-height: 1.9;
   text-align: center; font-family: 'Diphylleia', serif; font-style: italic;
   opacity: 0; transform: translateY(20px); transition: all 2s ease;
   text-shadow: 0 4px 20px rgba(0,0,0,0.9), 0 0 5px rgba(0,0,0,1);
@@ -282,24 +294,13 @@ section {
 /* ---- Laptop / small desktop ---- */
 @media (max-width: 1200px) {
   .c-two-column { gap: clamp(1rem, 5vw, 4rem); }
-  .map-img { max-width: 680px; }
   .calendar-img { max-width: 460px; }
 }
 
 /* ---- Tablet / small laptop (incl. iPad portrait 834px, iPad landscape 1024px) ---- */
 @media (max-width: 1024px) {
-  #combined-section, #chinese-layout, #transport-section { padding-top: clamp(5rem, 12vh, 8rem); padding-bottom: clamp(5rem, 12vh, 8rem); }
   .c-two-column { gap: clamp(1rem, 4vw, 3rem); }
   .venue-flex { width: 90%; }
-}
-
-/* Stack the transport map over the info below ~900px (narrow tablets / portrait) */
-@media (max-width: 900px) {
-  .t-grid { flex-direction: column; align-items: center; gap: clamp(1.5rem, 3vw, 2.5rem); }
-  .map-img { max-width: min(70vw, 460px); }
-  .t-side { width: 100%; max-width: 520px; }
-  .t-info { flex-direction: row; justify-content: center; gap: clamp(1.5rem, 4vw, 3rem); flex-wrap: wrap; }
-  .t-item { max-width: 340px; }
 }
 
 /* ---- Mobile ---- */
@@ -346,7 +347,7 @@ section {
   .t-grid { flex-direction: column; align-items: center; gap: 1.5rem; }
   .map-img { max-width: min(82vw, 340px); }
   .t-side { width: 100%; max-width: 420px; gap: 1.5rem; }
-  .t-info { flex-direction: column; gap: 1.1rem; }
+  .t-info { display: flex; flex-direction: column; gap: 1.1rem; }
   .t-item { align-items: flex-start; gap: 0.75rem; max-width: 100%; }
   .t-content h4 { font-size: 0.95rem; margin-bottom: 0.25rem; }
   .t-content p { font-size: 0.9rem; line-height: 1.55; }
@@ -377,17 +378,20 @@ section {
 
 /* ---- Short landscape (e.g. 1366x768, 1024x768, laptops with low height) ---- */
 @media (max-height: 780px) and (min-width: 769px) {
-  section { padding-top: 6rem; padding-bottom: 6rem; }
+  #chinese-layout, #combined-section, #transport-section, #final-section {
+    padding-top: clamp(6rem, 13vh, 8rem); padding-bottom: clamp(4.5rem, 10vh, 6rem);
+  }
   nav { padding: 0.5rem; }
-  nav img.logo { height: clamp(54px, 8vh, 88px); }
+  nav img.logo { height: clamp(54px, 8vh, 84px); }
   #fixed-counter-container { bottom: 0.75rem; }
   .counter-row span { font-size: 1.2rem; }
   .counter-row .unit { font-size: 0.6rem; letter-spacing: 0.2em; }
-  #combined-section { gap: 2.5rem; }
-  #calendar-block { gap: 2rem; }
-  .calendar-img { max-width: 380px; }
-  .map-img { max-width: 560px; }
-  .invite-header { margin-bottom: 2rem; }
+  #combined-section { gap: 2rem; }
+  #calendar-block { gap: 1.75rem; }
+  .calendar-img { max-width: 360px; }
+  .map-img { max-width: 300px; }
+  .gallery-scroll-container img { height: clamp(200px, 30vh, 260px); }
+  .invite-header { margin-bottom: 1.5rem; }
 }
 </style>
 </head>
@@ -581,6 +585,7 @@ function closeLightbox() {
   const elDays   = document.getElementById('c-days');
   const endQuote = document.getElementById('final-quote');
   const heroInner = document.querySelector('#hero .inner-content');
+  const mobileBg = document.getElementById('mobile-bg');
 
   // ---- state ----
   let frames = [];
@@ -710,6 +715,11 @@ function closeLightbox() {
     // Hero fade
     if (heroInner) {
       heroInner.style.opacity = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.4));
+    }
+
+    // Mobile rose: gentle scroll-driven rotation (cheap GPU transform, no video).
+    if (!isDesktop() && mobileBg) {
+      mobileBg.style.transform = 'scale(1.5) rotate(' + (progress * 10).toFixed(2) + 'deg)';
     }
 
     // Final quote reveal
