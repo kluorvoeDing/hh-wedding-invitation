@@ -46,9 +46,10 @@ body { font-family: var(--serif); background: #010101; color: #E0E0E0; font-weig
   padding: clamp(1.75rem, 3.5vw, 3rem);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  /* Uniform card footprint across every scene (same width + height) */
+  /* Uniform card footprint across every scene: ~60% of the viewport width on
+     desktop, horizontally centered (wider on tablet / mobile below). */
   width: 100%;
-  max-width: min(900px, 88vw);
+  max-width: min(900px, 60vw);
   min-height: clamp(440px, 68vh, 620px);
   margin: 0 auto;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -124,7 +125,7 @@ section {
 }
 /* Reserve safe space at top (floating logo) and bottom (fixed counter) so
    centered content never sits under the HUD. */
-#combined-section, #transport-section, #final-section {
+#combined-section, #transport-section, #dresscode-section, #final-section {
   padding-top: var(--hud-top);
   padding-bottom: var(--hud-bottom);
 }
@@ -140,12 +141,12 @@ section {
 #hero .hero-eyebrow {
   font-weight: 600;
   font-size: clamp(0.72rem, 1.6vw, 0.95rem); letter-spacing: 0.5em; text-indent: 0.5em;
-  text-transform: uppercase; color: #E8E8E8; margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+  text-transform: uppercase; color: #E8E8E8; margin-bottom: clamp(2.75rem, 7vh, 5rem);
   text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1);
 }
 .hero-names {
-  display: flex; flex-direction: column; align-items: center; line-height: 1.02;
-  color: #fff; margin-bottom: clamp(1.75rem, 4vw, 2.75rem); font-weight: normal;
+  display: flex; flex-direction: column; align-items: center; line-height: 1.08;
+  color: #fff; margin-bottom: clamp(2.75rem, 7vh, 5rem); font-weight: normal;
   text-shadow: 0 4px 22px rgba(0,0,0,0.92), 0 0 6px rgba(0,0,0,1);
 }
 .hero-names .hero-name { font-size: clamp(3rem, 9vw, 6.5rem); letter-spacing: 0.14em; text-indent: 0.14em; font-weight: 500; }
@@ -172,10 +173,13 @@ section {
 #calendar-block { display: flex; flex-direction: column; gap: clamp(2rem, 4vw, 4rem); align-items: center; }
 #calendar-block h2 { font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: 0.3em; margin-bottom: 0; font-family: var(--serif); font-weight: 300; text-transform: uppercase; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1);}
 .calendar-img { width: 100%; max-width: clamp(300px, 58vw, 520px); height: auto; margin: 0 auto; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
-.venue-flex { display: flex; align-items: center; justify-content: center; gap: clamp(1.25rem, 3vw, 2.25rem); text-align: left; border-top: 1px solid rgba(255,255,255,0.2); padding-top: clamp(2rem, 4vw, 4rem); width: 85%; }
-.venue-logo { height: clamp(64px, 9vw, 96px); width: auto; max-width: 100%; object-fit: contain; flex-shrink: 0; filter: brightness(0) invert(1) opacity(0.9) drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
-.venue-text h3 { font-family: var(--serif); font-size: clamp(1.2rem, 2.5vw, 1.5rem); font-weight: 300; letter-spacing: 0.2em; margin-bottom: 0.5rem; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
-.venue-text p { font-size: clamp(1rem, 2.5vw, 1.4rem); letter-spacing: 0.1em; color: #FFFFFF; line-height: 1.5; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.venue-flex { display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 3.5vw, 2.75rem); text-align: left; border-top: 1px solid rgba(255,255,255,0.2); padding-top: clamp(2rem, 4vw, 3.5rem); width: 88%; }
+.venue-logo { height: clamp(96px, 13vw, 150px); width: auto; max-width: 100%; object-fit: contain; flex-shrink: 0; filter: brightness(0) invert(1) opacity(0.9) drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
+.venue-text { display: flex; flex-direction: column; gap: 0.35rem; }
+.venue-text .venue-event { font-size: clamp(1rem, 2vw, 1.35rem); letter-spacing: 0.22em; text-indent: 0.22em; text-transform: uppercase; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.venue-text .venue-date { font-size: clamp(0.9rem, 1.7vw, 1.1rem); letter-spacing: 0.14em; color: #EDEDED; margin-bottom: 0.5rem; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.venue-text h3 { font-family: var(--serif); font-size: clamp(1.1rem, 2.1vw, 1.4rem); font-weight: 500; letter-spacing: 0.14em; margin-bottom: 0.15rem; color: #fff; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.venue-text p { font-size: clamp(0.9rem, 1.8vw, 1.15rem); letter-spacing: 0.08em; color: #EAEAEA; line-height: 1.6; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
 
 /* Transport (Scene 4) — map on the left, info + buttons on the right */
 .transport-card { padding: 0; position: relative; width: 100%; margin: 0 auto; text-align: center; border: none; box-shadow: none; background: transparent; display: flex; flex-direction: column; }
@@ -187,9 +191,28 @@ section {
 .t-item { display: flex; gap: 0.85rem; align-items: flex-start; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); max-width: 100%; }
 .t-icon { width: 26px; height: 26px; color: #E0E0E0; flex-shrink: 0; margin-top: 0.2rem; }
 .t-content h4 { font-family: var(--serif); font-size: 1.05rem; letter-spacing: 0.2em; color: #FFFFFF; margin-bottom: 0.4rem; text-transform: uppercase; font-weight: 600; }
-.t-content p { font-size: clamp(0.95rem, 2vw, 1.15rem); letter-spacing: 0.1em; color: #fff; line-height: 1.6; }
+.t-content p { font-size: clamp(0.9rem, 1.9vw, 1.08rem); letter-spacing: 0.1em; color: #fff; line-height: 1.6; }
 
-/* Final Gallery & Quote (Scene 5) */
+/* Dress Code (Scene 5) — rebuilt natively from the reference (no raw image) */
+#dresscode-section .dress-card { display: flex; flex-direction: column; align-items: center; gap: clamp(1.1rem, 2.6vh, 1.85rem); width: 100%; }
+.dress-title { font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: 0.22em; text-indent: 0.22em; text-transform: uppercase; color: #fff; font-weight: 500; text-shadow: 0 2px 12px rgba(0,0,0,0.9), 0 0 4px rgba(0,0,0,1); }
+.dress-icons { display: flex; gap: clamp(2.5rem, 8vw, 5rem); align-items: flex-end; justify-content: center; }
+.dress-icon { width: clamp(40px, 5.2vw, 60px); height: auto; color: #EFE7DD; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.6)); }
+.dress-lead { font-size: clamp(0.9rem, 1.7vw, 1.12rem); letter-spacing: 0.08em; line-height: 1.85; color: #ECECEC; max-width: 32em; text-shadow: 0 2px 10px rgba(0,0,0,0.9), 0 0 3px rgba(0,0,0,1); }
+.dress-lists { display: flex; gap: clamp(1.5rem, 5vw, 3.5rem); justify-content: center; align-items: stretch; width: 100%; }
+.dress-col { text-align: left; }
+.dress-col h4 { font-family: var(--serif); font-size: clamp(0.74rem, 1.4vw, 0.92rem); letter-spacing: 0.24em; text-transform: uppercase; color: #fff; opacity: 0.85; margin-bottom: 0.9rem; font-weight: 600; }
+.dress-col ul { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+.dress-col li { display: flex; align-items: center; gap: 0.7rem; font-size: clamp(0.86rem, 1.6vw, 1.05rem); letter-spacing: 0.05em; color: #ECECEC; text-shadow: 0 2px 8px rgba(0,0,0,0.9); }
+.dress-mark { flex-shrink: 0; width: 1.05em; height: 1.05em; display: inline-flex; }
+.dress-mark svg { width: 100%; height: 100%; }
+.dress-mark.avoid { color: #C58B7A; }
+.dress-mark.prefer { color: #C9B79C; }
+.dress-vdivider { width: 1px; align-self: stretch; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.18), transparent); }
+.dress-palette { display: flex; gap: clamp(0.4rem, 1.2vw, 0.65rem); margin-top: 0.3rem; }
+.dress-palette .swatch { width: clamp(32px, 4.6vw, 52px); height: clamp(32px, 4.6vw, 52px); border-radius: 5px; box-shadow: 0 3px 10px rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.14); }
+
+/* Final Gallery & Quote (Scene 6) */
 #final-section {
   position: relative;
   min-height: 100vh; min-height: 100svh;
@@ -199,7 +222,7 @@ section {
 }
 .gallery-wrap { position: relative; width: 100%; max-width: min(980px, 92vw); margin: 0 auto; flex-shrink: 0; }
 .gallery-scroll-container {
-  width: 100%; overflow-x: auto; white-space: nowrap;
+  width: 100%; overflow-x: auto; display: flex; align-items: center;
   padding: 1.25rem clamp(2.25rem, 4vw, 3.25rem); scroll-snap-type: x proximity; scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   /* keep horizontal gallery scroll from hijacking vertical page scroll */
@@ -225,7 +248,7 @@ section {
 .gallery-nav.next { right: clamp(0.5rem, 2vw, 1.5rem); }
 
 .gallery-scroll-container img {
-  height: clamp(220px, 26vh, 300px); width: auto; object-fit: cover; margin-right: 1.75rem; border-radius: 4px;
+  height: clamp(220px, 26vh, 300px); width: auto; flex: 0 0 auto; object-fit: cover; margin-right: 1.75rem; border-radius: 4px;
   filter: grayscale(80%) contrast(1.1) brightness(0.9); transition: all 0.4s ease;
   scroll-snap-align: center; cursor: pointer; display: inline-block;
   box-shadow: 0 10px 30px rgba(0,0,0,0.8);
@@ -304,6 +327,7 @@ section {
 
 /* ---- Tablet / small laptop (incl. iPad portrait 834px, iPad landscape 1024px) ---- */
 @media (max-width: 1024px) {
+  .glass-panel { max-width: 86vw; }
   .venue-flex { width: 90%; }
 }
 
@@ -324,7 +348,7 @@ section {
   }
   #hero { padding-top: 0; padding-bottom: 0; }
 
-  .glass-panel { padding: 1.5rem 1.25rem; border-radius: 12px; }
+  .glass-panel { padding: 1.5rem 1.25rem; border-radius: 12px; max-width: 94vw; }
 
   /* Hero — keep groom (left) / bride (right) side by side, scaled down */
   #hero .hero-eyebrow { letter-spacing: 0.4em; text-indent: 0.4em; margin-bottom: 1.25rem; }
@@ -342,9 +366,11 @@ section {
   #calendar-block { gap: clamp(2rem, 5vh, 3rem); }
   .calendar-img { max-width: min(90vw, 400px); }
   .venue-flex { flex-direction: row; align-items: center; justify-content: center; text-align: left; gap: 1rem; padding-top: clamp(1.75rem, 4vh, 2.5rem); width: 100%; }
-  .venue-logo { height: 58px; }
-  .venue-text h3 { font-size: 1.15rem; }
-  .venue-text p { font-size: 0.98rem; line-height: 1.6; }
+  .venue-logo { height: clamp(72px, 18vw, 96px); }
+  .venue-text h3 { font-size: 1.1rem; }
+  .venue-text p { font-size: 0.95rem; line-height: 1.6; }
+  .venue-text .venue-event { font-size: 1.05rem; }
+  .venue-text .venue-date { font-size: 0.9rem; margin-bottom: 0.4rem; }
 
   /* Page 4 — stack map over info; keep two-column buttons */
   .t-grid { flex-direction: column; align-items: center; gap: 1.5rem; }
@@ -357,9 +383,15 @@ section {
   .buttons-container { gap: 0.7rem; }
   .btn-outline { padding: 0.85rem 0.5rem; font-size: 0.82rem; letter-spacing: 0.12em; }
 
-  .gallery-scroll-container img { height: clamp(220px, 38vh, 340px); margin-right: 1rem; }
+  /* Dress code — stack the two lists, drop the divider */
+  .dress-lists { flex-direction: column; gap: 1.1rem; align-items: center; }
+  .dress-vdivider { display: none; }
+  .dress-col { width: 100%; max-width: 16rem; }
+  .dress-icon { width: clamp(40px, 13vw, 54px); }
 
-  /* Page 5 — keep the quote as two elegant single lines */
+  /* Page 6 — pull gallery + quote up so the pair sits vertically centred */
+  #final-section { gap: clamp(1rem, 2.5vh, 1.75rem); padding-top: clamp(4rem, 11vh, 5.5rem); padding-bottom: clamp(4rem, 9vh, 5rem); }
+  .gallery-scroll-container img { height: clamp(220px, 38vh, 340px); margin-right: 1rem; }
   #final-quote .quote-text { font-size: clamp(0.95rem, 4.3vw, 1.3rem); letter-spacing: 0.12em; line-height: 1.7; }
   #final-quote .quote-ornament { margin-bottom: 1.5rem; }
 }
@@ -377,7 +409,7 @@ section {
 
 /* ---- Short landscape (e.g. 1366x768, 1024x768, laptops with low height) ---- */
 @media (max-height: 780px) and (min-width: 769px) {
-  #combined-section, #transport-section, #final-section {
+  #combined-section, #transport-section, #dresscode-section, #final-section {
     padding-top: clamp(6rem, 13vh, 8rem); padding-bottom: clamp(4.5rem, 10vh, 6rem);
   }
   nav { padding: 0.5rem; }
@@ -438,14 +470,6 @@ section {
           <p class="hc-parents"><span class="hc-parents-label">新娘父母</span>陳明志 · 鄒美琪</p>
         </div>
       </div>
-      <div class="hero-meta">
-        <p class="hero-event">Luncheon</p>
-        <p class="date">September 05, 2026</p>
-      </div>
-      <div class="hero-venue">
-        <p>Taipei Marriott Hotel</p>
-        <p>台北萬豪酒店</p>
-      </div>
     </div>
   </section>
 
@@ -463,8 +487,10 @@ section {
         <img src="assets/venue-marriott-logo.png" alt="台北萬豪酒店 Logo" class="venue-logo"
              width="842" height="595" loading="lazy" decoding="async">
         <div class="venue-text">
-          <h3>12:00 開席</h3>
-          <p>台北萬豪酒店<br>8樓 GARDEN VILLA</p>
+          <p class="venue-event">Luncheon</p>
+          <p class="venue-date">September 05, 2026</p>
+          <h3>Taipei Marriott Hotel</h3>
+          <p>台北萬豪酒店 · 8F GARDEN VILLA</p>
         </div>
       </div>
     </div>
@@ -514,6 +540,65 @@ section {
               <a href="https://seating-lookup.vercel.app" class="btn-outline" target="_blank" rel="noopener">Seating Chart</a>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="spacer"></div>
+
+  <!-- 4. Dress Code -->
+  <section id="dresscode-section">
+    <div class="inner-content obs-target glass-panel">
+      <div class="dress-card">
+        <h2 class="dress-title">Dress Code</h2>
+        <div class="dress-icons">
+          <!-- Tuxedo (groom) -->
+          <svg class="dress-icon" viewBox="0 0 120 150" fill="currentColor" aria-label="正式西裝" role="img">
+            <path d="M60 30 L40 41 L16 52 L26 146 L52 146 L52 90 Z"/>
+            <path d="M60 30 L80 41 L104 52 L94 146 L68 146 L68 90 Z"/>
+            <path d="M60 30 L47 22 L47 38 Z"/>
+            <path d="M60 30 L73 22 L73 38 Z"/>
+            <rect x="56" y="26" width="8" height="8" rx="2"/>
+            <circle cx="60" cy="56" r="2.4"/>
+            <circle cx="60" cy="74" r="2.4"/>
+            <circle cx="60" cy="92" r="2.4"/>
+          </svg>
+          <!-- Dress (bride) -->
+          <svg class="dress-icon" viewBox="0 0 120 150" fill="currentColor" aria-label="正式洋裝" role="img">
+            <path d="M60 30
+              C56 23 49 22 45 27 C42 31 44 39 50 46 L50 53
+              C39 66 29 102 22 140 C37 148 83 148 98 140
+              C91 102 81 66 70 53 L70 46
+              C76 39 78 31 75 27 C71 22 64 23 60 30 Z"/>
+          </svg>
+        </div>
+        <p class="dress-lead">誠摯邀請您與我們共度幸福時光，<br>建議穿著正式服裝並避開全白色系。</p>
+        <div class="dress-lists">
+          <div class="dress-col">
+            <h4>Please Avoid</h4>
+            <ul>
+              <li><span class="dress-mark avoid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>拖鞋、登山鞋</li>
+              <li><span class="dress-mark avoid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>睡衣、睡褲、運動服、家居服</li>
+              <li><span class="dress-mark avoid"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M5 5 L19 19 M19 5 L5 19"/></svg></span>大紅大紫顏色</li>
+            </ul>
+          </div>
+          <div class="dress-vdivider"></div>
+          <div class="dress-col">
+            <h4>Recommended</h4>
+            <ul>
+              <li><span class="dress-mark prefer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8"/></svg></span>皮鞋、包鞋</li>
+              <li><span class="dress-mark prefer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8"/></svg></span>襯衫、西褲、洋裝、套裝</li>
+              <li><span class="dress-mark prefer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="8"/></svg></span>大地低飽和色系</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dress-palette" aria-label="建議色系：大地低飽和色卡">
+          <span class="swatch" style="background:#2C2016"></span>
+          <span class="swatch" style="background:#8A5C40"></span>
+          <span class="swatch" style="background:#756857"></span>
+          <span class="swatch" style="background:#CBB89E"></span>
+          <span class="swatch" style="background:#F0EAE3"></span>
         </div>
       </div>
     </div>
