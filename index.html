@@ -61,7 +61,7 @@ body { font-family: var(--serif); background: #010101; color: #E0E0E0; font-weig
   /* Static rose poster as a guaranteed fallback (e.g. file:// where frame
      extraction is blocked); the canvas / video draws on top when available. */
   background: #000 url('bg-mobile.jpg') center/cover no-repeat;
-  top: -10%; height: 120%;
+  top: 0; height: 100%;
 }
 #scroll-video-container canvas,
 #scroll-video-container video {
@@ -76,7 +76,7 @@ body { font-family: var(--serif); background: #010101; color: #E0E0E0; font-weig
   background: url('bg-mobile.jpg') center/cover no-repeat;
   display: none;
   transform-origin: center center;
-  transform: scale(1.5);
+  transform: scale(1.12);
   will-change: transform;
 }
 
@@ -155,8 +155,8 @@ section {
 .hc-col { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; min-width: 0; }
 .hc-en { font-size: clamp(1.05rem, 2.4vw, 1.55rem); letter-spacing: 0.16em; text-indent: 0.16em; color: #fff; font-weight: 600; }
 .hc-zh { font-size: clamp(1rem, 2.2vw, 1.35rem); letter-spacing: 0.3em; text-indent: 0.3em; color: #F2F2F2; }
-.hc-parents { font-size: clamp(0.8rem, 1.8vw, 1rem); letter-spacing: 0.12em; color: #C4C4C4; margin-top: 0.2rem; white-space: nowrap; }
-.hc-parents .hc-parents-label { display: block; font-size: 0.78em; letter-spacing: 0.18em; opacity: 0.7; margin-bottom: 0.2rem; }
+.hc-parents { font-size: clamp(0.8rem, 1.8vw, 1rem); letter-spacing: 0.12em; color: #EADFC9; font-weight: 600; margin-top: 0.2rem; white-space: nowrap; }
+.hc-parents .hc-parents-label { display: block; font-size: 0.78em; letter-spacing: 0.18em; font-weight: 500; opacity: 0.75; margin-bottom: 0.2rem; }
 .hero-couple .hc-amp { align-self: center; font-size: clamp(1.4rem, 3.5vw, 2.4rem); font-style: normal; opacity: 0.7; color: #fff; }
 .hero-meta { margin-top: clamp(0.75rem, 2vw, 1.25rem); }
 .hero-event { font-size: clamp(1.05rem, 2.4vw, 1.5rem); letter-spacing: 0.22em; text-indent: 0.22em; color: #fff; }
@@ -459,13 +459,11 @@ section {
       <div class="hero-couple">
         <!-- Groom (left) -->
         <div class="hc-col">
-          <p class="hc-en">Henry Liu</p>
           <p class="hc-zh">劉彥亨</p>
           <p class="hc-parents"><span class="hc-parents-label">新郎父母</span>劉國政 · 李麗娟</p>
         </div>
         <!-- Bride (right) -->
         <div class="hc-col">
-          <p class="hc-en">Hellen Chen</p>
           <p class="hc-zh">陳佳敏</p>
           <p class="hc-parents"><span class="hc-parents-label">新娘父母</span>陳明志 · 鄒美琪</p>
         </div>
@@ -775,7 +773,7 @@ function closeLightbox() {
 
     // Mobile rose: gentle scroll-driven rotation (cheap GPU transform, no video).
     if (!isDesktop() && mobileBg) {
-      mobileBg.style.transform = 'scale(1.5) rotate(' + (progress * 10).toFixed(2) + 'deg)';
+      mobileBg.style.transform = 'scale(1.12) rotate(' + (progress * 4).toFixed(2) + 'deg)';
     }
 
     // Scroll video (desktop only)
