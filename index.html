@@ -69,15 +69,14 @@ body { font-family: var(--serif); background: #010101; color: #E0E0E0; font-weig
 }
 #scroll-video-container .overlay { position: absolute; inset: 0; background: transparent; }
 
-/* Static mobile background (lightweight scroll-driven rotation in JS;
-   over-scaled so the corners stay covered while it turns) */
+/* Mobile background canvas — scroll-driven blooming-rose frame sequence
+   (frames preloaded from assets/rose/, drawn fit-to-width and centred so the
+   scattered petals stay visible). */
 #mobile-bg {
   position: fixed; inset: 0; z-index: -10;
-  background: url('bg-mobile.jpg') center/cover no-repeat;
   display: none;
-  transform-origin: center center;
-  transform: scale(1.12);
-  will-change: transform;
+  width: 100%; height: 100%;
+  background: #010101;
 }
 
 /* Nav */
@@ -437,7 +436,7 @@ section {
 </head>
 <body>
 
-<div id="mobile-bg"></div>
+<canvas id="mobile-bg"></canvas>
 <div id="scroll-video-container">
   <canvas id="video-canvas"></canvas>
   <video id="video-fallback" muted playsinline preload="none"></video>
@@ -638,6 +637,9 @@ function closeLightbox() {
   const MOBILE_BP = 768;                 // px; scroll-video only above this width
   const VIDEO_URL = 'bg.mp4';
   const TOTAL_DAYS = 6704;               // counter target
+  const ROSE_COUNT = 30;                 // mobile blooming-rose frame sequence
+  const ROSE_FILL = 1.0;                 // 1.0 = fit frame to viewport width (petals stay in view)
+  const roseUrl = i => 'assets/rose/f' + String(i).padStart(2, '0') + '.webp';
 
   const container = document.getElementById('scroll-video-container');
   const canvas = document.getElementById('video-canvas');
@@ -650,6 +652,7 @@ function closeLightbox() {
   const elDays   = document.getElementById('c-days');
   const heroInner = document.querySelector('#hero .inner-content');
   const mobileBg = document.getElementById('mobile-bg');
+  const mCtx = mobileBg.getContext('2d');
 
   // ---- state ----
   let frames = [];
@@ -662,6 +665,12 @@ function closeLightbox() {
   let lastCountIndex = -1;
   let rafScheduled = false;
   let resizeTimer = null;
+
+  // Mobile blooming-rose frame sequence
+  let roseFrames = [];
+  let roseStarted = false;
+  let mobileMode = false;
+  let lastRoseIndex = -1;
 
   const isDesktop = () => window.innerWidth > MOBILE_BP;
 
@@ -688,6 +697,51 @@ function closeLightbox() {
     const s = Math.max(cw / frame.width, ch / frame.height);
     const dw = frame.width * s, dh = frame.height * s;
     ctx.drawImage(frame, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  }
+
+  // ---- mobile blooming-rose frame sequence ----
+  function resizeMobileCanvas() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const w = Math.round(window.innerWidth * dpr);
+    const h = Math.round(window.innerHeight * dpr);
+    if (w > 0 && h > 0 && (mobileBg.width !== w || mobileBg.height !== h)) {
+      mobileBg.width = w;
+      mobileBg.height = h;
+    }
+    lastRoseIndex = -1; // force redraw at new size
+  }
+
+  function drawRoseFrame(img) {
+    const cw = mobileBg.width, ch = mobileBg.height;
+    mCtx.fillStyle = '#010101';
+    mCtx.fillRect(0, 0, cw, ch);
+    const s = (cw * ROSE_FILL) / img.naturalWidth;   // fit to width so petals stay in frame
+    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    mCtx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  }
+
+  function preloadRoseFrames() {
+    if (roseStarted) return;
+    roseStarted = true;
+    for (let i = 0; i < ROSE_COUNT; i++) {
+      const img = new Image();
+      img.decoding = 'async';
+      img.onload = () => { if (mobileMode) { lastRoseIndex = -1; requestUpdate(); } };
+      img.src = roseUrl(i);
+      roseFrames[i] = img;
+    }
+  }
+
+  function enableMobileMode() {
+    if (mobileMode) return;
+    mobileMode = true;
+    resizeMobileCanvas();
+    preloadRoseFrames();
+    requestUpdate();
+  }
+
+  function disableMobileMode() {
+    mobileMode = false;
   }
 
   // ---- frame extraction (desktop only) ----
@@ -781,9 +835,16 @@ function closeLightbox() {
       heroInner.style.opacity = Math.max(0, 1 - window.scrollY / (window.innerHeight * 0.4));
     }
 
-    // Mobile rose: gentle scroll-driven rotation (cheap GPU transform, no video).
-    if (!isDesktop() && mobileBg) {
-      mobileBg.style.transform = 'scale(1.12) rotate(' + (progress * 4).toFixed(2) + 'deg)';
+    // Mobile: blooming-rose frame sequence driven by scroll.
+    if (mobileMode) {
+      const idx = Math.round(progress * (ROSE_COUNT - 1));
+      if (idx !== lastRoseIndex) {
+        const img = roseFrames[idx];
+        if (img && img.complete && img.naturalWidth) {
+          lastRoseIndex = idx;
+          drawRoseFrame(img);
+        }
+      }
     }
 
     // Scroll video (desktop only)
@@ -843,8 +904,8 @@ function closeLightbox() {
   }
 
   function applyMode() {
-    if (isDesktop()) enableVideoMode();
-    else disableVideoMode();
+    if (isDesktop()) { disableMobileMode(); enableVideoMode(); }
+    else { disableVideoMode(); enableMobileMode(); }
   }
 
   // ---- listeners ----
@@ -852,6 +913,7 @@ function closeLightbox() {
 
   window.addEventListener('resize', () => {
     if (videoMode) resizeCanvas();
+    if (mobileMode) resizeMobileCanvas();
     requestUpdate();
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(applyMode, 200); // debounce the heavy mode switch
