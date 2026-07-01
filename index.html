@@ -155,8 +155,8 @@ section {
 .hc-col { display: flex; flex-direction: column; align-items: center; gap: 0.35rem; min-width: 0; }
 .hc-en { font-size: clamp(1.05rem, 2.4vw, 1.55rem); letter-spacing: 0.16em; text-indent: 0.16em; color: #fff; font-weight: 600; }
 .hc-zh { font-size: clamp(1rem, 2.2vw, 1.35rem); letter-spacing: 0.3em; text-indent: 0.3em; color: #F2F2F2; }
-.hc-parents { font-size: clamp(0.8rem, 1.8vw, 1rem); letter-spacing: 0.12em; color: #EADFC9; font-weight: 600; margin-top: 0.2rem; white-space: nowrap; }
-.hc-parents .hc-parents-label { display: block; font-size: 0.78em; letter-spacing: 0.18em; font-weight: 500; opacity: 0.75; margin-bottom: 0.2rem; }
+.hc-parents { font-size: clamp(0.8rem, 1.8vw, 1rem); letter-spacing: 0.12em; color: #C4C4C4; margin-top: 0.2rem; white-space: nowrap; }
+.hc-parents .hc-parents-label { display: block; font-size: 0.78em; letter-spacing: 0.18em; opacity: 0.7; margin-bottom: 0.2rem; }
 .hero-couple .hc-amp { align-self: center; font-size: clamp(1.4rem, 3.5vw, 2.4rem); font-style: normal; opacity: 0.7; color: #fff; }
 .hero-meta { margin-top: clamp(0.75rem, 2vw, 1.25rem); }
 .hero-event { font-size: clamp(1.05rem, 2.4vw, 1.5rem); letter-spacing: 0.22em; text-indent: 0.22em; color: #fff; }
@@ -169,13 +169,19 @@ section {
 #calendar-block { display: flex; flex-direction: column; gap: clamp(1.5rem, 2.8vw, 2.5rem); align-items: center; }
 #calendar-block h2 { font-size: clamp(1.5rem, 3vw, 2rem); letter-spacing: 0.3em; margin-bottom: 0; font-family: var(--serif); font-weight: 300; text-transform: uppercase; color: #fff;}
 .calendar-img { width: 100%; max-width: clamp(240px, 42vw, 366px); height: auto; margin: 0 auto; display: block; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.8)); }
-.venue-flex { display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 3.5vw, 2.75rem); text-align: left; border-top: 1px solid rgba(255,255,255,0.2); padding-top: clamp(2rem, 4vw, 3.5rem); width: 88%; }
+/* Ornament divider (diamond flanked by fading silver lines) — same style as
+   the original quote divider */
+.cal-ornament { display: flex; align-items: center; justify-content: center; gap: 0.9rem; width: min(320px, 80%); margin: clamp(0.5rem, 1.5vw, 1rem) auto; }
+.cal-ornament::before, .cal-ornament::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, rgba(248,248,248,0.6)); }
+.cal-ornament::after { transform: scaleX(-1); }
+.cal-ornament span { width: 7px; height: 7px; transform: rotate(45deg); flex-shrink: 0; background: #F8F8F8; box-shadow: 0 0 8px rgba(255,255,255,0.7); }
+.venue-flex { display: flex; align-items: center; justify-content: center; gap: clamp(1.5rem, 3.5vw, 2.75rem); text-align: left; width: 88%; }
 .venue-logo { height: clamp(96px, 13vw, 150px); width: auto; max-width: 100%; object-fit: contain; flex-shrink: 0; filter: brightness(0) invert(1) opacity(0.9) drop-shadow(0 2px 5px rgba(0,0,0,0.8)); }
 .venue-text { display: flex; flex-direction: column; gap: 0.35rem; }
 .venue-text .venue-event { font-size: clamp(1rem, 2vw, 1.35rem); letter-spacing: 0.22em; text-indent: 0.22em; text-transform: uppercase; color: #fff; }
 .venue-text .venue-date { font-size: clamp(0.9rem, 1.7vw, 1.1rem); letter-spacing: 0.14em; color: #EDEDED; margin-bottom: 0.5rem; }
-/* Hotel name + hall share 微軟正黑體 (sans CJK) so they read as a set */
-.venue-text .venue-hotel, .venue-text .venue-hall { font-family: 'Microsoft JhengHei', 'PingFang TC', 'Heiti TC', 'Noto Sans TC', sans-serif; }
+/* Date + hotel + hall share 微軟正黑體 (sans) so they read as a set */
+.venue-text .venue-date, .venue-text .venue-hotel, .venue-text .venue-hall { font-family: 'Microsoft JhengHei', 'PingFang TC', 'Heiti TC', 'Noto Sans TC', sans-serif; }
 .venue-text .venue-hotel { font-size: clamp(1.1rem, 2.1vw, 1.4rem); font-weight: 500; letter-spacing: 0.2em; margin-bottom: 0.1rem; color: #fff; }
 .venue-text p { font-size: clamp(0.9rem, 1.8vw, 1.15rem); letter-spacing: 0.14em; color: #EAEAEA; line-height: 1.6; }
 
@@ -195,7 +201,7 @@ section {
 #dresscode-section .dress-card { display: flex; flex-direction: column; align-items: center; gap: clamp(1.1rem, 2.6vh, 1.85rem); width: 100%; }
 .dress-title { font-size: clamp(1.5rem, 3vw, 2.4rem); letter-spacing: 0.22em; text-indent: 0.22em; text-transform: uppercase; color: #fff; font-weight: 500; }
 .dress-icons { display: flex; gap: clamp(2.5rem, 8vw, 5rem); align-items: flex-end; justify-content: center; }
-.dress-icon { height: clamp(58px, 7vw, 88px); width: auto; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.6)); }
+.dress-icon { height: clamp(58px, 7vw, 88px); width: auto; filter: brightness(0) invert(1) drop-shadow(0 3px 8px rgba(0,0,0,0.55)); }
 .dress-lead { font-size: clamp(0.9rem, 1.7vw, 1.12rem); letter-spacing: 0.08em; line-height: 1.85; color: #ECECEC; max-width: 32em; }
 .dress-lists { display: flex; gap: clamp(1.5rem, 5vw, 3.5rem); justify-content: center; align-items: stretch; width: 100%; }
 .dress-col { text-align: left; }
@@ -204,7 +210,7 @@ section {
 .dress-col li { display: flex; align-items: center; gap: 0.7rem; font-size: clamp(0.86rem, 1.6vw, 1.05rem); letter-spacing: 0.05em; color: #ECECEC; }
 .dress-mark { flex-shrink: 0; width: 1.05em; height: 1.05em; display: inline-flex; }
 .dress-mark svg { width: 100%; height: 100%; }
-.dress-mark.avoid { color: #C58B7A; }
+.dress-mark.avoid { color: #8E2A2A; }
 .dress-mark.prefer { color: #C9B79C; }
 .dress-vdivider { width: 1px; align-self: stretch; background: linear-gradient(180deg, transparent, rgba(255,255,255,0.18), transparent); }
 .dress-palette { display: flex; gap: clamp(0.4rem, 1.2vw, 0.65rem); margin-top: 0.3rem; }
@@ -393,7 +399,9 @@ section {
   #final-section { gap: clamp(1rem, 2.5vh, 1.75rem); padding-top: clamp(4rem, 11vh, 5.5rem); padding-bottom: clamp(4rem, 9vh, 5rem); }
   /* Mobile uses native left/right swipe — hide the arrow buttons */
   .gallery-nav { display: none; }
-  .gallery-scroll-container img { height: clamp(220px, 38vh, 340px); margin-right: 1rem; }
+  /* Peek the neighbouring photos so it's clear the gallery swipes sideways */
+  .gallery-scroll-container { padding: 1.25rem 8vw; scroll-padding: 0 8vw; }
+  .gallery-scroll-container img { width: 70vw; height: clamp(220px, 38vh, 320px); object-fit: cover; margin-right: 4vw; }
   #final-quote .quote-text { font-size: clamp(0.95rem, 4.3vw, 1.3rem); letter-spacing: 0.12em; line-height: 1.7; }
   #final-quote .quote-ornament { margin-bottom: 1.5rem; }
 }
@@ -480,6 +488,8 @@ section {
            src="assets/calendar-grid.png"
            alt="2026 年 9 月婚禮月曆，婚禮日期為 9 月 5 日星期六"
            width="448" height="349" loading="lazy" decoding="async" />
+
+      <div class="cal-ornament"><span></span></div>
 
       <div class="venue-flex">
         <img src="assets/venue-marriott-logo-nocn.png" alt="台北萬豪酒店 Logo" class="venue-logo"
@@ -880,6 +890,26 @@ function closeLightbox() {
     const nextBtn = document.querySelector('.gallery-nav.next');
     if (prevBtn) prevBtn.addEventListener('click', () => gallery.scrollBy({ left: -stepBy(), behavior: 'smooth' }));
     if (nextBtn) nextBtn.addEventListener('click', () => gallery.scrollBy({ left: stepBy(), behavior: 'smooth' }));
+
+    // Mobile: one-time gentle nudge when the gallery scrolls into view — hints
+    // that it can be swiped sideways without adding any visible controls.
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      let hinted = false;
+      const hintObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting && !hinted) {
+            hinted = true;
+            hintObs.disconnect();
+            const d = Math.min(48, Math.max(0, gallery.scrollWidth - gallery.clientWidth));
+            if (d > 8) setTimeout(() => {
+              gallery.scrollTo({ left: d, behavior: 'smooth' });
+              setTimeout(() => gallery.scrollTo({ left: 0, behavior: 'smooth' }), 700);
+            }, 550);
+          }
+        });
+      }, { threshold: 0.6 });
+      hintObs.observe(gallery);
+    }
   }
 
   // ---- init ----
