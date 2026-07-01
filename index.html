@@ -637,8 +637,7 @@ function closeLightbox() {
   const MOBILE_BP = 768;                 // px; scroll-video only above this width
   const VIDEO_URL = 'bg.mp4';
   const TOTAL_DAYS = 6704;               // counter target
-  const ROSE_COUNT = 30;                 // mobile blooming-rose frame sequence
-  const ROSE_FILL = 1.0;                 // 1.0 = fit frame to viewport width (petals stay in view)
+  const ROSE_COUNT = 60;                 // mobile blooming-rose frame sequence (9:16 source)
   const roseUrl = i => 'assets/rose/f' + String(i).padStart(2, '0') + '.webp';
 
   const container = document.getElementById('scroll-video-container');
@@ -715,7 +714,8 @@ function closeLightbox() {
     const cw = mobileBg.width, ch = mobileBg.height;
     mCtx.fillStyle = '#010101';
     mCtx.fillRect(0, 0, cw, ch);
-    const s = (cw * ROSE_FILL) / img.naturalWidth;   // fit to width so petals stay in frame
+    // Cover: the 9:16 source fills the whole phone viewport (minimal crop).
+    const s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
     const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
     mCtx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
   }
